@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量申请料号自动化工具 - 操作指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #334155; /* 深岩灰，提升易读性 */
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fafaf9; /* 暖白背景，去除冷灰色 */
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* 更通透的悬浮阴影 */
+            padding: 40px;
+            border: 1px solid #f1f5f9;
+        }
+
+        /* 顶部目录导航 */
+        .toc {
+            background: #f0f9ff; /* 清新的浅海蓝色背景 */
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0ea5e9; /* 海蓝高亮 */
+        }
+
+        .toc-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #0f172a;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .toc-list a {
+            color: #0369a1;
+            text-decoration: none;
+            display: block;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border: 1px solid #e0f2fe;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+        }
+
+        .toc-list a:hover {
+            background: #0ea5e9;
+            color: #ffffff;
+            border-color: #0ea5e9;
+            transform: translateY(-1px);
+        }
+
+        /* 标题样式 */
+        h1 {
+            color: #0f172a; /* 近乎黑色的深蓝，对比度更强 */
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .meta {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 30px;
+            font-style: italic;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: #0f172a;
+            font-size: 22px;
+            margin: 40px 0 15px 0;
+            font-weight: 700;
+            scroll-margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: #0ea5e9;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #1e293b;
+            font-size: 17px;
+            margin: 25px 0 12px 0;
+            scroll-margin-top: 20px;
+            font-weight: 600;
+        }
+
+        h4 {
+            color: #0284c7;
+            font-size: 15px;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        /* 提示框与说明注释（清爽的彩色系） */
+        .info, .warning, .tip, .feature-box {
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14.5px;
+        }
+
+        .info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            color: #075985;
+        }
+
+        .info-title {
+            color: #0369a1;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .warning {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+        }
+
+        .warning-title {
+            color: #b45309;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .tip {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .tip-title {
+            color: #15803d;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            color: #334155;
+        }
+
+        .feature-box-title {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        /* 步骤块 */
+        .step {
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        /* 流程图样式 */
+        .flowchart-container {
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e0f2fe;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+        }
+
+        .flowchart-svg {
+            width: 100%;
+            height: auto;
+            max-width: 900px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #0ea5e9;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        /* 列表与注释文本 */
+        ul, ol {
+            margin: 10px 0 16px 25px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .highlight {
+            color: #ef4444; /* 鲜艳的红色高亮 */
+            font-weight: 600;
+            background: #fef2f2;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .required {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .optional {
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* 注释字体设计 */
+        .excel-comment {
+            color: #0891b2; /* 青色注释 */
+            font-size: 13.5px;
+            font-style: italic;
+            font-family: "Georgia", "Times New Roman", serif; /* 衬线字体 */
+            background: #ecfeff;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 代码块 */
+        code {
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: "Cascadia Code", "Consolas", monospace;
+            font-size: 13.5px;
+            color: #0f172a;
+        }
+
+        pre {
+            background: #0f172a; /* 深蓝色代码块背景 */
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* 按钮样式 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #0284c7;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 34px;
+            right: 95px;
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid #e2e8f0;
+            padding: 10px 24px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            z-index: 999;
+        }
+
+        .print-btn:hover {
+            border-color: #0ea5e9;
+            color: #0ea5e9;
+            box-shadow: 0 6px 12px rgba(14, 165, 233, 0.1);
+        }
+
+        /* 媒体查询 */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; }
+            .print-btn, .back-to-top, .toc { display: none; }
+            h2, h3 { scroll-margin-top: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 24px; }
+            .print-btn { right: 20px; bottom: 90px; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">↑</button>
+    
+    <div class="container">
+        <h1>批量申请料号自动化工具 - 操作指南</h1>
+        <div class="meta">
+            版本: v1.0 | 更新时间: 2026-03-01 | 适用对象: 使用本工具的所有用户
+        </div>
+
+        <!-- 目录导航 -->
+        <nav class="toc">
+            <div class="toc-title">📑 目录导航（点击快速跳转）</div>
+            <ul class="toc-list">
+                <li><a href="#section1">一、工具简介</a></li>
+                <li><a href="#section-flowchart">二、脚本流程示意</a></li>
+                <li><a href="#section2">三、环境准备</a></li>
+                <li><a href="#section3">四、操作步骤详解</a></li>
+                <li><a href="#section4">五、Excel模板填写规范</a></li>
+                <li><a href="#section5">六、功能详解</a></li>
+                <li><a href="#section6">七、常见问题与解决方法</a></li>
+                <li><a href="#section7">八、注意事项</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="section1">一、工具简介</h2>
+        <p>本工具是自动化RPA脚本，用于在<span class="highlight">华勤PLM系统</span>中批量创建物料（申请料号）。</p>
+        
+        <h3>主要功能</h3>
+        <ul>
+            <li>自动/手动登录系统</li>
+            <li>根据EXCEL内容批量创建物料</li>
+            <li>自动填写料号详细属性</li>
+            <li>自动填写供应商规格型号及客户料号信息</li>
+            <li>自动上传附件（如有）</li>
+            <li>检索多结果弹窗提示选择</li>
+            <li>对异常提示弹窗自动处理</li>
+            <li>完成报告弹窗展示</li>
+        </ul>
+
+        <h2 id="section-flowchart">二、脚本流程示意</h2>
+        <div class="flowchart-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1050" preserveAspectRatio="xMidYMid meet" style="background-color: #f8faff; font-family: sans-serif; max-height: 800px; width: 100%; display: block; margin: 0 auto;">
+            <defs>
+                <!-- 箭头标记 -->
+                <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7f8c8d" />
+                </marker>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2ecc71" />
+                </marker>
+                <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c" />
+                </marker>
+                <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3498db" />
+                </marker>
+                <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e67e22" />
+                </marker>
+                <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b59b6" />
+                </marker>
+                
+                <!-- 阴影滤镜 -->
+                <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.1"/>
+                </filter>
+
+                <!-- 渐变 -->
+                <linearGradient id="grad-green" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2ecc71" />
+                <stop offset="100%" stop-color="#27ae60" />
+                </linearGradient>
+                <linearGradient id="grad-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#54a0ff" />
+                <stop offset="100%" stop-color="#2e86de" />
+                </linearGradient>
+                <linearGradient id="grad-orange" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#f39c12" />
+                <stop offset="100%" stop-color="#d35400" />
+                </linearGradient>
+                <linearGradient id="grad-purple1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#a29bfe" />
+                <stop offset="100%" stop-color="#6c5ce7" />
+                </linearGradient>
+                <linearGradient id="grad-purple2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#c56cf0" />
+                <stop offset="100%" stop-color="#8e44ad" />
+                </linearGradient>
+            </defs>
+
+            <!-- 连线 (含折线) -->
+            <!-- 准备 -> 运行脚本 -->
+            <line x1="400" y1="120" x2="400" y2="165" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <!-- 运行脚本 -> 选择类别 -->
+            <line x1="400" y1="215" x2="400" y2="265" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <!-- 选择类别 -> 判定Excel -->
+            <line x1="400" y1="315" x2="400" y2="365" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            
+            <!-- 判定Excel -> 登录PLM (通过) -->
+            <line x1="400" y1="435" x2="400" y2="485" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrow-green)" />
+            <text x="410" y="465" fill="#2ecc71" font-size="12">通过</text>
+            
+            <!-- 判定Excel -> 返回修改Excel (不通过) -->
+            <polyline points="500,400 620,400 620,535" fill="none" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-red)" />
+            <text x="520" y="390" fill="#e74c3c" font-size="12">检测不通过</text>
+
+            <!-- 登录PLM -> 检索匹配 -->
+            <line x1="400" y1="535" x2="400" y2="575" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+
+            <!-- 检索匹配 -> 自动填写 (唯一匹配) -->
+            <polyline points="300,610 210,610 210,740 285,740" fill="none" stroke="#3498db" stroke-width="2" marker-end="url(#arrow-blue)" />
+            <text x="240" y="600" fill="#3498db" font-size="12">唯一匹配</text>
+
+            <!-- 检索匹配 -> 弹窗提示 (多结果) -->
+            <polyline points="500,610 560,610 560,655" fill="none" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-orange)" />
+            <text x="505" y="600" fill="#e67e22" font-size="12">多结果匹配</text>
+
+            <!-- 弹窗提示 -> 自动填写 (用户选择) -->
+            <polyline points="620,665 620,702 515,702" fill="none" stroke="#e67e22" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-orange)" />
+            <text x="630" y="690" fill="#e67e22" font-size="12">用户选择/手动选择</text>
+
+            <!-- 自动填写 -> 登录PLM (循环下一个) -->
+            <polyline points="510,702 680,702 680,510 515,510" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-purple)" />
+            <text x="600" y="500" fill="#9b59b6" font-size="12">处理下一个物料</text>
+
+            <!-- 自动填写 -> 上传附件 -->
+            <line x1="400" y1="725" x2="400" y2="745" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <!-- 上传附件 -> 弹窗统计 -->
+            <line x1="400" y1="790" x2="400" y2="805" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <!-- 弹窗统计 -> 提交审批 -->
+            <line x1="400" y1="850" x2="400" y2="880" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+
+            <!-- 节点: 准备附件 -->
+            <g transform="translate(300, 60)" filter="url(#shadow)">
+                <rect width="200" height="60" rx="30" fill="url(#grad-green)" />
+                <text x="100" y="25" fill="white" font-size="16" font-weight="bold" text-anchor="middle">准备附件文件夹</text>
+                <text x="100" y="45" fill="white" font-size="12" text-anchor="middle">图纸放入对应文件夹</text>
+            </g>
+
+            <!-- 节点: 运行脚本 -->
+            <g transform="translate(300, 165)" filter="url(#shadow)">
+                <rect width="200" height="50" rx="8" fill="url(#grad-blue)" />
+                <text x="100" y="30" fill="white" font-size="16" font-weight="bold" text-anchor="middle">运行批量申请料号脚本</text>
+            </g>
+
+            <!-- 节点: 选择类别 -->
+            <g transform="translate(300, 265)" filter="url(#shadow)">
+                <rect width="200" height="50" rx="8" fill="url(#grad-blue)" />
+                <text x="100" y="30" fill="white" font-size="16" font-weight="bold" text-anchor="middle">选择物料类别(Sheet)</text>
+            </g>
+
+            <!-- 节点: 判定Excel -->
+            <g transform="translate(400, 400)" filter="url(#shadow)">
+                <polygon points="0,-35 100,0 0,35 -100,0" fill="url(#grad-orange)" />
+                <text x="0" y="5" fill="white" font-size="14" font-weight="bold" text-anchor="middle">系统检测Excel</text>
+            </g>
+
+            <!-- 节点: 登录PLM -->
+            <g transform="translate(300, 485)" filter="url(#shadow)">
+                <rect width="200" height="50" rx="8" fill="url(#grad-blue)" />
+                <text x="100" y="30" fill="white" font-size="16" font-weight="bold" text-anchor="middle">自动登录PLM系统</text>
+            </g>
+
+            <!-- 节点: 检索匹配 -->
+            <g transform="translate(400, 610)" filter="url(#shadow)">
+                <polygon points="0,-35 100,0 0,35 -100,0" fill="url(#grad-orange)" />
+                <text x="0" y="5" fill="white" font-size="14" font-weight="bold" text-anchor="middle">检索匹配选项</text>
+            </g>
+
+            <!-- 旁支节点: 返回修改Excel -->
+            <g transform="translate(520, 535)" filter="url(#shadow)">
+                <rect width="200" height="50" rx="8" fill="#ffeaa7" stroke="#d63031" stroke-width="2" />
+                <text x="100" y="30" fill="#d63031" font-size="16" font-weight="bold" text-anchor="middle">返回修改Excel</text>
+            </g>
+
+            <!-- 旁支节点: 弹窗提示 -->
+            <g transform="translate(520, 620)" filter="url(#shadow)">
+                <rect width="200" height="45" rx="8" fill="#fef9e7" stroke="#f39c12" stroke-width="2" />
+                <text x="100" y="27" fill="#d35400" font-size="15" font-weight="bold" text-anchor="middle">弹窗提示用户选择</text>
+            </g>
+
+            <!-- 节点: 自动填写物料信息 -->
+            <g transform="translate(300, 680)" filter="url(#shadow)">
+                <rect width="200" height="45" rx="8" fill="url(#grad-blue)" />
+                <text x="100" y="27" fill="white" font-size="15" font-weight="bold" text-anchor="middle">自动填写物料信息</text>
+            </g>
+
+            <!-- 节点: 自动上传附件 -->
+            <g transform="translate(300, 745)" filter="url(#shadow)">
+                <rect width="200" height="45" rx="8" fill="url(#grad-blue)" />
+                <text x="100" y="27" fill="white" font-size="15" font-weight="bold" text-anchor="middle">自动上传附件</text>
+            </g>
+
+            <!-- 节点: 弹窗统计 -->
+            <g transform="translate(300, 805)" filter="url(#shadow)">
+                <rect width="200" height="45" rx="8" fill="url(#grad-purple1)" />
+                <text x="100" y="27" fill="white" font-size="15" font-weight="bold" text-anchor="middle">全部完成，弹窗统计</text>
+            </g>
+
+            <!-- 节点: 提交审批 -->
+            <g transform="translate(300, 880)" filter="url(#shadow)">
+                <rect width="200" height="55" rx="27" fill="url(#grad-purple2)" />
+                <text x="100" y="25" fill="white" font-size="15" font-weight="bold" text-anchor="middle">手动提交审批</text>
+                <text x="100" y="42" fill="white" font-size="11" text-anchor="middle">关闭程序</text>
+            </g>
+
+            <!-- 图例 -->
+            <g transform="translate(40, 950)" filter="url(#shadow)">
+                <rect width="260" height="90" rx="8" fill="#ffffff" stroke="#ecf0f1" stroke-width="2" />
+                <text x="15" y="25" fill="#2c3e50" font-size="14" font-weight="bold">图例说明</text>
+                
+                <!-- 第一列 -->
+                <rect x="15" y="40" width="20" height="15" rx="3" fill="#2ecc71" />
+                <text x="45" y="52" fill="#7f8c8d" font-size="12">开始/结束</text>
+                
+                <rect x="15" y="65" width="20" height="15" rx="3" fill="#54a0ff" />
+                <text x="45" y="77" fill="#7f8c8d" font-size="12">自动处理</text>
+                
+                <!-- 第二列 -->
+                <polygon points="110,47 125,40 125,55" fill="#f39c12" />
+                <text x="135" y="52" fill="#7f8c8d" font-size="12">判断分支</text>
+                
+                <line x1="110" y1="73" x2="130" y2="73" stroke="#2ecc71" stroke-width="2" />
+                <text x="135" y="77" fill="#7f8c8d" font-size="12">通过</text>
+
+                <!-- 第三列 -->
+                <line x1="180" y1="73" x2="200" y2="73" stroke="#e74c3c" stroke-width="2" />
+                <text x="205" y="77" fill="#7f8c8d" font-size="12">返回修改</text>
+            </g>
+
+            </svg>
+
+        </div>
+
+        <div class="tip" style="background: #fffbeb; border-left-color: #f59e0b;">
+            <div class="tip-title">💡 流程说明</div>
+            <ul>
+                <li><strong>蓝色节点</strong>：系统自动处理，无需人工干预</li>
+                <li><strong>黄色菱形</strong>：判断分支，可能触发弹窗提示</li>
+                <li><strong>绿色箭头</strong>：检测通过，继续执行</li>
+                <li><strong>红色箭头</strong>：检测不通过，返回修改Excel</li>
+                <li><strong>紫色虚线</strong>：循环处理，逐个创建物料</li>
+            </ul>
+        </div>
+
+        <h2 id="section2">三、环境准备</h2>
+        
+        <h3>系统要求</h3>
+        <ul>
+            <li>Windows 7/10/11</li>
+            <li>Google Chrome浏览器</li>
+            <li>Python 3.8+</li>
+        </ul>
+
+        <h3>1、安装Python</h3>
+        <p>双击目录中的 <code>python-3.14.3-amd64.exe</code> 进行安装：</p>
+        
+        <img src="python_install_guide.png" alt="Python安装示意图" class="guide-image">
+        <div class="image-caption">▲ Python安装步骤：勾选"Add python.exe to PATH"后点击Install Now</div>
+
+        <div class="tip">
+            <div class="tip-title">安装要点</div>
+            <ul>
+                <li><strong>必须勾选</strong> "Add python.exe to PATH"（添加到环境变量）</li>
+                <li>点击 "Install Now" 使用默认设置安装即可</li>
+                <li>等待安装完成，点击Close关闭</li>
+            </ul>
+        </div>
+
+        <p><strong>方式一：一键自动安装（推荐）</strong></p>
+        <p>直接双击运行文件夹目录中的 <code>安装依赖.bat</code> 文件，自动完成所有依赖安装。</p>
+
+        <p><strong>方式二：手动安装（在cmd界面运行以下代码）</strong></p>
+        <pre><code>pip install playwright openpyxl PyQt5 -i https://pypi.tuna.tsinghua.edu.cn/simple</code></pre>
+
+        <h3>2、安装必备依赖库</h3>
+        <div class="info">
+            <div class="info-title">关于浏览器</div>
+            <p>程序会<strong>自动调用系统已安装的 Google Chrome</strong>，无需额外安装浏览器驱动（若没有谷歌浏览器需安装）。</p>
+        </div>
+        
+        <h2 id="section3">四、操作步骤详解</h2>
+
+        <div class="step">
+            <div class="step-title">步骤1: 配置账号</div>
+            <p>使用记事本打开文件夹下 <code>批量申请料号V1.0.py</code> 在文件开头将***改为PLM账号和密码即可自动登录:</p>
+            <pre><code># ================= 用户名配置 =================
+user_name = "您的账号"      # 改为PLM账号，如保持***则需要手动输入
+user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动输入</code></pre>
+            <div class="tip">
+                <div class="tip-title">提示</div>
+                若不想明文存储密码，则忽略上述操作，需每次手动输入账号密码。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤2: 准备料号申请模板</div>
+            <ol>
+                <li>在程序目录下创建 <code>.xlsx</code> 文件（可使用"料号批量申请模板.xlsx"进行更改）</li>
+                <li>按第四章规范填写数据（Sheet名称=物料类别）</li>
+                <li><span class="highlight">填写后确保Excel文件已保存</span></li>
+            </ol>
+            <div class="warning">
+                <div class="warning-title">重要</div>
+                程序会自动读取当前目录下<strong>第一个</strong> <code>.xlsx</code> 文件作为数据源，
+                因此文件夹下只能放一个excel文件，不要有多余excel文件；
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤3: 准备图纸附件文件夹（可选）</div>
+            <p>如果需要自动上传附件:</p>
+            <ol>
+                <li>在程序目录下创建文件夹，命名格式: <code>供应商名称&amp;规格型号</code></li>（与模板内保持一致）
+                <li>将需要上传的附件放入对应文件夹</li>
+            </ol>
+            <p>示例: <code>三赢兴&amp;SWM547181A0M-C-VA</code></p>
+            <p>双击运行 <code>一键创建附件文件夹.py</code> 可以批量创建文件夹（需提前填写好料号申请模板中的供应商及规格型号）:</p>
+                <div class="tip">
+                <div class="tip-title">提示</div>
+                若不需要上传附件图纸，则忽略上述操作。
+                </div>  
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤4: 运行程序</div>
+            <p>双击 <strong>批量申请料号V1.0.py</strong> 运行程序或在命令行执行:</p>
+            <pre><code>python 批量申请料号最终版.py</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤5: 监控运行过程</div>
+            <p>程序会自动打开Chrome浏览器并执行:</p>
+            <pre><code>[1/8] 登录系统...
+[2/8] 寻找操作窗口...
+[3/8] 初始化选择物料类别: xxx
+[4/8] 选择产品配置: xxx  ← 每行数据独立选择
+[5/8] 开始填写详细属性...
+[6/8] 填写制供规属性信息...
+[7/8] 填写客户料号信息...
+[8/8] 创建临时物料...</code></pre>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤6: Sheet选择</div>
+            <p>如果Excel文件包含多个Sheet，程序会弹出选择对话框:</p>
+            <div class="info">
+                <div class="info-title">📋 Sheet选择对话框</div>
+                <p>当Excel中有多个Sheet时，会显示<strong>包含所有类别的下拉框</strong></p>
+                <p><strong>Sheet名称 = 物料类别</strong>，例如：OLED显示屏、SMT屏蔽罩等</p>
+            </div>
+            <ol>
+                <li>从下拉框中选择要申请的物料类别（Sheet名称）</li>
+                <li>点击<strong>【确定】</strong>按钮继续</li>
+                <li>或点击<strong>【取消】</strong>按钮退出程序</li>
+            </ol>
+            
+            <div class="info" style="margin-top: 20px;">
+                <div class="info-title">🔍 Excel内容自动检测</div>
+                <p>选择Sheet后，系统会自动检测Excel填写规范。如发现异常，会弹出提示窗口：</p>
+            </div>
+            
+            <table style="margin-top: 15px; font-size: 13px;">
+                <thead>
+                    <tr style="background: #e3f2fd;">
+                        <th style="width: 25%; padding: 10px; text-align: left;">检测项目</th>
+                        <th style="width: 45%; padding: 10px; text-align: left;">错误说明</th>
+                        <th style="width: 30%; padding: 10px; text-align: left;">处理建议</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">缺失序号</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">行内有内容但未填写序号</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">补充序号或删除该行</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">必填字段缺失</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">表头对应内容未填写</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">补充完整必填字段</td>
+                    </tr>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">客供料信息不全</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">是否客供料选择"是"，但客户名称或客户料号为空</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">补充客户信息或改为"否"</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">规格型号重复</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">不同行的规格和规格型号完全相同</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">检查是否重复创建</td>
+                    </tr>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">同供应商规格型号重复</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">同一供应商下，规格和型号重复</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">合并或修改规格型号</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">客户料号重复</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">不同行的客户料号相同</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">检查客户料号是否正确</td>
+                    </tr>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">附件文件夹缺失</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">期望的附件文件夹不存在</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">创建文件夹或忽略（如无需图纸）</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">附件文件夹为空</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">附件文件夹内没有文件</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">放入图纸文件或忽略</td>
+                    </tr>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">包含非法字符</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">供应商名称等包含 \ / : * ? " < > | & 等字符</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">删除特殊字符</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">数据间存在空行</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">数据行之间存在完全为空的行</td>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e0e0e0;">删除空行</td>
+                    </tr>
+                    <tr style="background: #fff;">
+                        <td style="padding: 8px 10px;">存在合并单元格</td>
+                        <td style="padding: 8px 10px;">Excel中存在合并单元格</td>
+                        <td style="padding: 8px 10px;">取消合并单元格</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="tip" style="margin-top: 15px;">
+                <div class="tip-title">检测异常处理</div>
+                <p>当检测到异常时，会弹出提示窗口，您可以选择：</p>
+                <ul>
+                    <li><strong>【取消（重新填写Excel）】</strong>：返回修改Excel，修正后再运行程序</li>
+                    <li><strong>【确认（我已确认，继续创建）】</strong>：忽略警告继续执行（可能导致创建失败）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤7: 物料类别/供应商/客户多结果选择（支持手动模式）</div>
+            <p>当搜索物料类别、供应商或客户有多个匹配结果时，程序会弹出<strong>选择对话框</strong>:</p>
+            
+            <div class="feature-box">
+                <p>当搜索结果有多个匹配项时，您有两种选择方式：</p>
+                <ul>
+                    <li><strong>方式一：</strong>从列表中选择正确项，点击<strong>【确定】</strong>，程序自动完成后续操作</li>
+                    <li><strong>方式二：</strong>点击<strong>【取消（自行选择）】</strong>，在PLM弹窗中手动选择并确认，程序会等待您完成操作后继续</li>
+                </ul>
+            </div>
+            
+            <div class="warning">
+                <div class="warning-title">注意</div>
+                使用手动模式时，程序最多等待<strong>60秒</strong>，请在此期间完成选择并确认。
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤8: 重复料号创建提示弹窗自动处理</div>
+            <div class="feature-box">
+                <div class="feature-box-title">智能弹窗处理</div>
+                <p>当系统检测到重复规格型号或客户料号时，会弹出"客户料号提示信息"弹窗。</p>
+                <p>程序会<strong>自动处理</strong>此类弹窗：</p>
+                <ol>
+                    <li>自动点击【确定】关闭大弹窗</li>
+                    <li>自动按回车确认后续可能弹出的小弹窗</li>
+                </ol>
+                <p style="margin-top: 10px; font-size: 13px; opacity: 0.9;">⚠️ 注意：程序会在报告中标记此类情况，请检查是否确实需要重复创建料号。</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">步骤9: 查看完成报告</div>
+            <div class="feature-box">
+                <div class="feature-box-title">完成报告对话框</div>
+                <p>程序运行结束后，会以<strong>弹窗形式</strong>展示处理结果：</p>
+                <ul>
+                    <li>✅ 显示所有成功创建的物料数量</li>
+                    <li>⚠️ 显示警告信息（如重复料号提醒）</li>
+                    <li>❌ 显示失败记录及原因</li>
+                </ul>
+            </div>
+            <p>点击弹窗中的<strong>【确定】</strong>按钮关闭报告。</p>
+            <p>在命令行窗口按回车键或者叉掉窗口可以退出程序，<strong>浏览器会同步关闭，需先提交料号审批</strong>。</p>
+        </div>
+
+        <h2 id="section4">五、Excel模板填写规范</h2>
+
+        <h3>Excel结构说明</h3>
+        <div class="info">
+            <div class="info-title">📁 Sheet名称 = 物料类别</div>
+            <p>Sheet名称即物料类别的<strong>最后一个词条</strong>，如部件/华勤物料(数据治理)/结构料/金属件/屏蔽罩/SMT屏蔽罩，则Sheet名称为<strong>SMT屏蔽罩</strong>。</p></p>
+            <p>例如：创建名为"OLED显示屏"的Sheet，程序会自动将其识别为物料类别。</p>
+        </div>
+        <table>
+            <tr>
+                <th>位置</th>
+                <th>内容</th>
+            </tr>
+            <tr>
+                <td>Sheet名称</td>
+                <td><strong>物料类别名称</strong>（如：OLED显示屏、SMT屏蔽罩）</td>
+            </tr>
+            <tr>
+                <td>第1行</td>
+                <td>表头名称（序号、产品配置、供应商名称、规格及所有必填项信息）</td>
+            </tr>
+            <tr>
+                <td>第2行+</td>
+                <td><strong>数据行</strong>（填写具体信息）</td>
+            </tr>
+        </table>
+        <div class="warning">
+            <div class="warning-title">格式说明</div>
+            <ul>
+                <li>Sheet名=物料类别，产品配置名在每行数据中填写</li>
+                <li>支持<strong>多Sheet</strong>，程序启动时让用户选择处理哪个Sheet</li>
+            </ul>
+        </div>
+
+        <h3>Excel模板示例</h3>
+
+        <div class="excel-section">
+            <p><strong>▶ 数据列表区（第1行起）</strong></p>
+            <table class="excel-table">
+                <tr class="excel-header">
+                    <th style="width:60px">行号</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th>F</th>
+                    <th>G</th>
+                    <th>H</th>
+                    <th>I</th>
+                    <th>J</th>
+                </tr>
+                <tr>
+                    <td class="excel-row-header">1</td>
+                    <td>序号</td>
+                    <td>产品配置</td>
+                    <td>供应商名称</td>
+                    <td>规格</td>
+                    <td>规格型号</td>
+                    <td>采购模式</td>
+                    <td>是否客供料</td>
+                    <td>客户名称</td>
+                    <td>客户料号</td>
+                    <td>环保属性</td>
+                </tr>
+                <tr>
+                    <td class="excel-row-header">2</td>
+                    <td>1</td>
+                    <td>HL****AAA</td>
+                    <td>三赢兴</td>
+                    <td>***</td>
+                    <td>***</td>
+                    <td>TURNKEY</td>
+                    <td>否</td>
+                    <td></td>
+                    <td></td>
+                    <td>Ⅰ级(无卤欧盟环保)</td>
+                </tr>
+                <tr>
+                    <td class="excel-row-header">3</td>
+                    <td>2</td>
+                    <td>HL****BBB</td>
+                    <td>三赢兴</td>
+                    <td>***</td>
+                    <td>***</td>
+                    <td>CONSIGN</td>
+                    <td>是</td>
+                    <td>华为</td>
+                    <td>***</td>
+                    <td>Ⅰ级(无卤欧盟环保)</td>
+                </tr>
+            </table>
+            
+            <div class="excel-note">
+                <div class="excel-note-title">📝 产品配置说明</div>
+                <p><strong>每行数据独立填写产品配置</strong>，程序会为每个物料单独选择对应的产品配置。</p>
+                <p>如果多行使用相同的产品配置，可以复制粘贴相同的值。</p>
+            </div>
+        </div>
+
+        <h3>字段填写说明</h3>
+        <div class="excel-section">
+            <table>
+                <tr>
+                    <th style="width:100px">列名</th>
+                    <th style="width:60px">必填</th>
+                    <th>填写说明</th>
+                </tr>
+                <tr>
+                    <td>序号</td>
+                    <td class="required">必填</td>
+                    <td>与需要申请的数量匹配，从1开始递增（必须是纯数字）</td>
+                </tr>
+                <tr>
+                    <td>产品配置</td>
+                    <td class="required">必填</td>
+                    <td>每行独立填写，PLM系统中已存在的产品配置代码</td>
+                </tr>
+                <tr>
+                    <td>供应商名称</td>
+                    <td class="required">必填</td>
+                    <td>系统上必须能检索到的供应商名称</td>
+                </tr>
+                <tr>
+                    <td>规格</td>
+                    <td class="required">必填</td>
+                    <td>物料规格描述，供应商的规格型号</td>
+                </tr>
+                <tr>
+                    <td>规格型号</td>
+                    <td class="required">必填</td>
+                    <td>通常等于规格，用于制作图纸附件文件夹命名</td>
+                </tr>
+                <tr>
+                    <td>采购模式</td>
+                    <td class="required">必填</td>
+                    <td>如"TURNKEY"、"AV_NO_AP"等</td>
+                </tr>
+                <tr>
+                    <td>是否客供料</td>
+                    <td class="required">必填</td>
+                    <td>填写"是"或"否"</td>
+                </tr>
+                <tr>
+                    <td>客户名称</td>
+                    <td class="optional">选填</td>
+                    <td>若为客供或者采购属性为AVAP则<strong class="required">必填</strong></td>
+                </tr>
+                <tr>
+                    <td>客户料号</td>
+                    <td class="optional">选填</td>
+                    <td>若为客供或者采购属性为AVAP则<strong class="required">必填</strong></td>
+                </tr>
+                <tr>
+                    <td>环保属性</td>
+                    <td class="required">必填</td>
+                    <td>默认填写"Ⅰ级(无卤欧盟环保)"即可</td>
+                </tr>
+                <tr>
+                    <td>申请需求源</td>
+                    <td class="required">必填</td>
+                    <td>根据需要默认为"资源"或"研发"</td>
+                </tr>
+                <tr>
+                    <td>器件等级</td>
+                    <td class="required">必填</td>
+                    <td>可默认为"消费级"</td>
+                </tr>
+                <tr>
+                    <td>尺寸类字段</td>
+                    <td class="required">必填</td>
+                    <td>根据实际词条填写，如BTB改为封装尺寸</td>
+                </tr>
+                <tr>
+                    <td>其他PLM带*号字段</td>
+                    <td class="required">必填</td>
+                    <td>根据实际类别，自由增加必填项的表头和内容</td>
+                </tr>
+            </table>
+        </div>
+
+        <h3>文件夹命名规则</h3>
+        <div class="info">
+            <div class="info-title">附件文件夹命名格式</div>
+            <p><code>供应商名称&amp;规格型号</code></p>
+            <p>示例: <strong>三赢兴&amp;SWM547181A0M-C-VA</strong></p>
+            <p>程序会自动根据Excel中的<strong>供应商名称</strong>和<strong>规格型号</strong>查找对应文件夹并上传附件。</p>
+        </div>
+
+        <div class="tip">
+            <div class="tip-title">Excel填写注意事项</div>
+            <ul>
+                <li><strong>Sheet名称即物料类别</strong>，命名要准确，不包含空格</li>
+                <li>确保Excel文件已保存后再运行程序</li>
+                <li>第1列必须有<strong>序号</strong>（纯数字），且不能为空</li>
+                <li>表头名称必须与PLM系统完全一致，否则程序无法识别</li>
+                <li>如果时带<strong>下拉属性的信息</strong>，填写内容必须与PLM系统完全一致</li>
+                <li>表头必须包含所有在PLM系统中带<span class="highlight">红色*</span>号的字段</li>
+            </ul>
+        </div>
+
+        <h2 id="section5">六、功能详解</h2>
+        
+        <div class="feature-card">
+            <div class="feature-card-title">🎯 1. 手动选择模式</div>
+            <p>当搜索物料类别、供应商或客户出现多个匹配结果时，除了从列表中选择，还可以选择在PLM弹窗中<strong>手动选择</strong>。</p>
+            <h4>使用场景：</h4>
+            <ul>
+                <li>列表中的选项信息不够完整，需要查看更多详情</li>
+                <li>需要通过关键字在PLM弹窗中二次搜索</li>
+                <li>习惯在PLM原生界面中操作</li>
+            </ul>
+            <h4>操作方式：</h4>
+            <ol>
+                <li>在多结果选择对话框中点击<strong>【取消（自行选择）】</strong></li>
+                <li>在PLM弹窗中使用搜索或滚动找到正确选项</li>
+                <li>勾选并点击PLM弹窗的【确认】按钮</li>
+                <li>程序检测到弹窗关闭后自动继续（最多等待60秒）</li>
+            </ol>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-card-title">🤖 2. 客户料号提示弹窗自动处理</div>
+            <p>当系统检测到相同规格型号或客户料号已存在时，会弹出"客户料号提示信息"弹窗。</p>
+            <p>程序能够<strong>自动处理</strong>此类弹窗：</p>
+            <ul>
+                <li>自动点击【确定】关闭提示弹窗</li>
+                <li>自动按回车确认后续可能弹出的确认弹窗</li>
+                <li>在最终报告中标记此类情况，提醒检查是否重复创建</li>
+            </ul>
+            <div class="warning">
+                <div class="warning-title">⚠️ 重要提醒</div>
+                虽然程序会自动处理客户料号提示弹窗，但<strong>请务必检查</strong>是否真的需要重复创建料号。如果是误填了重复信息，请在PLM中删除错误的料号申请。
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-card-title">📊 3. 完成报告对话框</div>
+            <p>程序运行结束后，会以<strong>弹窗形式</strong>展示完整的处理报告</p>
+            <h4>报告内容包括：</h4>
+            <ul>
+                <li><strong>成功记录：</strong>所有成功创建的物料数量</li>
+                <li><strong>警告信息：</strong>如带*号信息未填写、客户料号重复创建提示等</li>
+                <li><strong>失败记录：</strong>失败物料的序号及具体原因</li>
+            </ul>
+        </div>
+
+
+        <h2 id="section6">七、常见问题与解决方法</h2>
+
+        <h3>问题1: "当前目录下未找到 .xlsx 文件"</h3>
+        <div class="warning">
+            <div class="warning-title">现象</div>
+            <code>[错误] 当前目录下未找到 .xlsx 文件</code>
+        </div>
+        <p><strong>原因</strong>: 程序目录下没有Excel文件，或Excel文件正在打开中</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认Excel文件存在于程序目录</li>
+            <li>确保Excel文件<strong>已经关闭</strong></li>
+            <li>检查文件扩展名是否为 <code>.xlsx</code>（不是 <code>.xls</code>）</li>
+        </ol>
+
+        <h3>问题2: 浏览器打不开或闪退</h3>
+        <p><strong>原因</strong>: 系统未安装 Google Chrome 浏览器</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认已安装 Google Chrome 浏览器</li>
+            <li>如未安装，请访问 <a href="https://www.google.com/chrome/" target="_blank">https://www.google.com/chrome/</a> 下载安装</li>
+            <li>重新运行程序</li>
+        </ol>
+
+        <h3>问题3: 登录超时</h3>
+        <div class="warning">
+            <div class="warning-title">现象</div>
+            <code>[错误] 等待登录超时（2分钟）</code>
+        </div>
+        <p><strong>原因</strong>: 账号密码错误或登录过程太慢</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>检查代码中的 <code>user_name</code> 和 <code>user_password</code> 是否正确</li>
+            <li>手动在浏览器中完成登录，程序会自动继续</li>
+            <li>或将账号密码改为 <code>"***"</code>，完全手动登录</li>
+        </ol>
+
+        <h3>问题4: "未找到物料类别"</h3>
+        <p><strong>现象</strong>: 弹出红色错误对话框，提示未找到物料类别</p>
+        <p><strong>原因</strong>: 物料类别在PLM系统中搜不到或者偶尔的网络波动导致运行卡顿</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认物料类别在PLM系统中可以被检索</li>
+            <li>重新运行程序</strong></li>
+        </ol>
+
+
+        <h3>问题5: "未找到产品配置"</h3>
+        <p><strong>现象</strong>: 弹出红色错误对话框，提示未找到产品配置</p>
+        <p><strong>原因</strong>: Excel中填写的产品配置名称与PLM系统中不匹配</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>在Excel中修改产品配置名称</li>
+            <li>确保名称与PLM系统中<strong>完全一致</strong></li>
+            <li>重新运行程序</li>
+        </ol>
+
+        <h3>问题6: "未找到供应商"</h3>
+        <p><strong>现象</strong>: 弹出红色错误对话框，提示未找到供应商</p>
+        <p><strong>原因</strong>: 供应商名称在PLM系统中不存在</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认供应商名称拼写正确</li>
+            <li>联系管理员确认供应商是否已录入系统</li>
+            <li>或暂时清空该字段，手动在PLM中填写</li>
+        </ol>
+
+        <h3>问题7: 附件上传失败</h3>
+        <p><strong>现象</strong>: 提示 "[附件] 上传出错"</p>
+        <p><strong>原因</strong>:</p>
+        <ul>
+            <li>文件夹命名不符合规范</li>
+            <li>文件夹不存在</li>
+            <li>文件被占用</li>
+        </ul>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认文件夹命名格式: <code>供应商名称&amp;规格型号</code></li>
+            <li>确认文件夹存在于程序目录下</li>
+            <li>确保附件文件没有被其他程序打开</li>
+        </ol>
+
+        <h3>问题8: 创建临时物料失败</h3>
+        <p><strong>现象</strong>: 日志显示创建失败，捕获到异常</p>
+        <p><strong>常见原因及解决</strong>:</p>
+        <table>
+            <tr>
+                <th>错误信息</th>
+                <th>原因</th>
+                <th>解决方法</th>
+            </tr>
+            <tr>
+                <td>必填项不能为空</td>
+                <td>必填字段未填写</td>
+                <td>在Excel中补充必填信息</td>
+            </tr>
+            <tr>
+                <td>物料编码已存在</td>
+                <td>该物料已创建</td>
+                <td>检查是否重复申请</td>
+            </tr>
+            <tr>
+                <td>请填写供应商信息</td>
+                <td>供应商必填但未填</td>
+                <td>补充供应商信息</td>
+            </tr>
+            <tr>
+                <td>客户名称不能为空</td>
+                <td>客供料为"是"但未填客户</td>
+                <td>补充客户信息</td>
+            </tr>
+        </table>
+
+        <h3>问题9: 多结果选择时超时</h3>
+        <p><strong>现象</strong>: 使用手动选择模式时，提示等待超时</p>
+        <p><strong>原因</strong>: 在PLM弹窗中选择超过60秒未完成</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>在60秒内完成选择和确认操作</li>
+            <li>如需更多时间，可改为从列表中选择（非手动模式）</li>
+            <li>或提前在PLM中查好正确的选项，缩短选择时间</li>
+        </ol>
+
+        <h3>问题10: 程序运行中崩溃</h3>
+        <p><strong>现象</strong>: Python报错，程序异常退出</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>检查Python版本是否为 3.8+</li>
+            <li>重新安装依赖库:
+                <pre><code>pip install --upgrade playwright openpyxl PyQt5 -i https://pypi.tuna.tsinghua.edu.cn/simple</code></pre>
+            </li>
+            <li>查看错误日志，搜索具体的错误信息</li>
+        </ol>
+
+        <h2 id="section7">八、注意事项</h2>
+
+        <h3>重要提醒</h3>
+        <ol>
+            <li><strong>Excel文件必须关闭</strong>: 运行程序前确保Excel文件已保存并关闭</li>
+            <li><strong>不要操作浏览器</strong>: 程序运行期间，请勿手动操作浏览器窗口，以免干扰自动化流程（除非有弹窗提示需要选择）</li>
+            <li><strong>手动模式时限</strong>: 使用手动选择模式时，请在60秒内完成PLM弹窗中的操作</li>
+            <li><strong>网络稳定</strong>: 确保网络连接稳定，避免PLM系统响应超时，如因网络波动导致失败需重新运行脚本</li>
+            <li><strong>账号权限</strong>: 确保PLM账号有批量创建物料的权限</li>
+            <li><strong>重复料号检查</strong>: 当程序提示存在相同规格型号/客户料号的HQ料号时，请检查是否确实需要重复创建</li>
+        </ol>
+
+        <div class="footer">
+            <p>文档编写  刘明星</p>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ 打印 / 另存为PDF</button>
+
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
