@@ -9,30 +9,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg: #f9fafb;
-            --color-surface: #ffffff;
-            --color-text-primary: #18181b;
-            --color-text-secondary: #52525b;
-            --color-text-muted: #71717a;
-            --color-border: #e4e4e7;
-            --color-accent: #0ea5e9;
-            --color-accent-hover: #0284c7;
-            --color-accent-light: #f0f9ff;
-            --color-success: #10b981;
-            --color-success-light: #f0fdf4;
-            --color-warning: #f59e0b;
-            --color-warning-light: #fffbeb;
-            --color-error: #ef4444;
-            --color-error-light: #fef2f2;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --radius-sm: 0.5rem;
-            --radius-md: 0.75rem;
-            --radius-lg: 1rem;
-            --radius-xl: 1.5rem;
-            --radius-2xl: 2rem;
+            /* Kawaii Minimal 配色系统 */
+            --color-bg: #FDFDFB;
+            --color-surface: #FFFEFC;
+            --color-text-primary: #2D3748;
+            --color-text-secondary: #4A5568;
+            --color-text-muted: #718096;
+            --color-border: #E2E8F0;
+
+            /* 主色-薄荷绿系 */
+            --color-accent: #7ECEC0;
+            --color-accent-hover: #5EBBA9;
+            --color-accent-light: #E8F6F2;
+            --color-accent-soft: #9ED9CD;
+
+            /* 辅色-天蓝色 */
+            --color-secondary: #7EB8DA;
+            --color-secondary-soft: #E5F2FA;
+            --color-secondary-light: #A5C9E6;
+
+            /* 点缀色-淡紫色 */
+            --color-purple: #B5A8D8;
+            --color-purple-soft: #F0EDF8;
+            --color-purple-light: #D0C8E8;
+
+            /* 状态色 - 柔和版本 */
+            --color-success: #68D391;
+            --color-success-light: #C6F6D5;
+            --color-warning: #F6AD55;
+            --color-warning-light: #FEEBC8;
+            --color-error: #FC8181;
+            --color-error-light: #FED7D7;
+            --color-info: #76C7FA;
+            --color-info-light: #BEE3F8;
+
+            /* 阴影系统 - 薄荷绿色调 */
+            --shadow-xs: 0 2px 4px rgba(126, 206, 192, 0.08);
+            --shadow-sm: 0 4px 12px rgba(126, 206, 192, 0.12);
+            --shadow-md: 0 8px 20px rgba(126, 206, 192, 0.18);
+            --shadow-lg: 0 12px 32px rgba(126, 206, 192, 0.25);
+            --shadow-xl: 0 16px 48px rgba(126, 206, 192, 0.3);
+
+            /* 圆角系统 - 超大圆角 */
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 30px;
+            --radius-2xl: 40px;
+            --radius-full: 9999px;
+
+            /* 弹簧物理动画缓动 */
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         * {
@@ -49,23 +78,65 @@
             font-family: 'Geist', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
             line-height: 1.7;
             color: var(--color-text-primary);
-            background: var(--color-bg);
+            background: linear-gradient(180deg, #F8FAFA 0%, #F5F8F7 50%, #F2F5F3 100%);
             max-width: 1100px;
             margin: 0 auto;
             padding: 24px;
             font-size: 15px;
             letter-spacing: -0.01em;
+            position: relative;
+            min-height: 100vh;
         }
 
-        /* Liquid Glass Container */
+        /* 背景点阵图案 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle, rgba(126, 206, 192, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 背景柔和光晕 */
+        body::after {
+            content: '';
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
+            filter: blur(150px);
+            opacity: 0.06;
+            top: -100px;
+            right: -100px;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 20s ease-in-out infinite;
+        }
+
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, 50px) scale(1.1); }
+            50% { transform: translate(0, 100px) scale(1); }
+            75% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* Kawaii Container */
         .container {
-            background: var(--color-surface);
+            background: rgba(255, 254, 252, 0.95);
             border-radius: var(--radius-2xl);
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            border: 2px solid rgba(126, 206, 192, 0.12);
+            box-shadow: var(--shadow-md);
             padding: 48px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1;
         }
 
         .container::before {
@@ -76,6 +147,17 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        }
+
+        /* 彩虹渐变顶部装饰 */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-secondary) 50%, var(--color-purple) 100%);
         }
 
         /* Header Section */
@@ -91,7 +173,7 @@
             letter-spacing: -0.03em;
             line-height: 1.2;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-text-secondary) 100%);
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 50%, var(--color-purple) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -119,15 +201,16 @@
             border-radius: 50%;
         }
 
-        /* Table of Contents - Bento Style */
+        /* Table of Contents - Kawaii Bento Style */
         .toc {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(240, 249, 255, 0.5) 100%);
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
             border-radius: var(--radius-xl);
             padding: 28px 32px;
             margin-bottom: 48px;
-            border: 1px solid rgba(14, 165, 233, 0.15);
+            border: 2px solid rgba(126, 206, 192, 0.15);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .toc::before {
@@ -137,7 +220,7 @@
             left: 0;
             width: 4px;
             height: 100%;
-            background: linear-gradient(180deg, var(--color-accent), var(--color-accent-hover));
+            background: linear-gradient(180deg, var(--color-accent), var(--color-secondary));
         }
 
         .toc-title {
@@ -156,7 +239,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--color-accent);
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
             color: white;
             border-radius: var(--radius-sm);
             font-size: 14px;
@@ -181,11 +264,11 @@
             padding: 12px 16px;
             border-radius: var(--radius-md);
             background: var(--color-surface);
-            border: 1px solid var(--color-border);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid var(--color-border);
+            transition: all 0.3s var(--ease-spring);
             font-size: 0.9375rem;
             font-weight: 500;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-xs);
         }
 
         .toc-list a::before {
@@ -194,14 +277,14 @@
             height: 6px;
             background: var(--color-accent);
             border-radius: 50%;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s var(--ease-spring);
         }
 
         .toc-list a:hover {
-            background: var(--color-accent);
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
             color: white;
             border-color: var(--color-accent);
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(1.02);
             box-shadow: var(--shadow-lg);
         }
 
@@ -228,7 +311,7 @@
             display: inline-block;
             width: 6px;
             height: 24px;
-            background: linear-gradient(180deg, var(--color-accent), var(--color-accent-hover));
+            background: linear-gradient(180deg, var(--color-accent), var(--color-secondary));
             border-radius: 3px;
         }
 
@@ -255,23 +338,29 @@
             max-width: 65ch;
         }
 
-        /* Alert Boxes - Liquid Glass Style */
+        /* Alert Boxes - Kawaii Style */
         .info, .warning, .tip, .feature-box {
             padding: 20px 24px;
             margin: 24px 0;
             border-radius: var(--radius-lg);
             font-size: 0.9375rem;
             position: relative;
-            border: 1px solid;
+            border: 2px solid;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s var(--ease-spring);
         }
 
         .info {
-            background: linear-gradient(135deg, rgba(240, 249, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(14, 165, 233, 0.2);
+            background: linear-gradient(135deg, var(--color-info-light) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-color: rgba(118, 199, 250, 0.25);
             color: #075985;
-            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(118, 199, 250, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(118, 199, 250, 0.15);
         }
 
         .info-title, .warning-title, .tip-title, .feature-box-title {
@@ -291,7 +380,7 @@
             content: 'i';
             width: 18px;
             height: 18px;
-            background: var(--color-accent);
+            background: var(--color-info);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -304,10 +393,15 @@
         }
 
         .warning {
-            background: linear-gradient(135deg, rgba(254, 252, 232, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(245, 158, 11, 0.25);
+            background: linear-gradient(135deg, var(--color-warning-light) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-color: rgba(246, 173, 85, 0.3);
             color: #92400e;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(246, 173, 85, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(246, 173, 85, 0.18);
         }
 
         .warning-title {
@@ -329,10 +423,15 @@
         }
 
         .tip {
-            background: linear-gradient(135deg, rgba(240, 253, 244, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(16, 185, 129, 0.2);
+            background: linear-gradient(135deg, var(--color-success-light) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-color: rgba(104, 211, 145, 0.25);
             color: #166534;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 20px rgba(104, 211, 145, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .tip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(104, 211, 145, 0.15);
         }
 
         .tip-title {
@@ -362,35 +461,41 @@
         }
 
         .feature-box {
-            background: linear-gradient(135deg, rgba(250, 250, 250, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: var(--color-border);
+            background: linear-gradient(135deg, var(--color-purple-soft) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-color: rgba(181, 168, 216, 0.2);
             color: var(--color-text-secondary);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px rgba(181, 168, 216, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .feature-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(181, 168, 216, 0.12);
         }
 
         .feature-box-title {
             color: var(--color-text-primary);
         }
 
-        /* Step Cards - Bento Style */
+        /* Step Cards - Kawaii Bento Style */
         .step {
             background: var(--color-surface);
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.15);
             border-radius: var(--radius-xl);
             padding: 28px;
             margin: 20px 0;
             box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s var(--ease-spring);
         }
 
         .step:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(126, 206, 192, 0.3);
         }
 
         .step-title {
             font-weight: 600;
-            color: var(--color-accent);
+            color: var(--color-accent-hover);
             margin-bottom: 16px;
             font-size: 1rem;
             display: flex;
@@ -416,7 +521,7 @@
             margin: 0 auto;
         }
 
-        /* Tables - Modern Style */
+        /* Tables - Kawaii Style */
         table {
             width: 100%;
             border-collapse: separate;
@@ -425,7 +530,7 @@
             font-size: 0.9375rem;
             border-radius: var(--radius-lg);
             overflow: hidden;
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.15);
             background: var(--color-surface);
             box-shadow: var(--shadow-sm);
         }
@@ -437,7 +542,7 @@
         }
 
         th {
-            background: linear-gradient(180deg, #fafafa 0%, #f4f4f5 100%);
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
             font-weight: 600;
             color: var(--color-text-primary);
             font-size: 0.875rem;
@@ -450,7 +555,7 @@
         }
 
         tr:hover td {
-            background: #fafafa;
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.05) 100%);
         }
 
         /* Lists */
@@ -464,10 +569,10 @@
         }
 
         li::marker {
-            color: var(--color-accent);
+            color: var(--color-accent-hover);
         }
 
-        /* Highlight & Text Styles */
+        /* Highlight & Text Styles - Kawaii Style */
         .highlight {
             color: var(--color-error);
             font-weight: 600;
@@ -475,6 +580,7 @@
             padding: 2px 8px;
             border-radius: var(--radius-sm);
             font-size: 0.9375em;
+            border: 2px solid rgba(252, 129, 129, 0.2);
         }
 
         .required {
@@ -492,20 +598,21 @@
             font-size: 0.9375rem;
             font-style: italic;
             font-family: Georgia, "Times New Roman", serif;
-            background: #ecfeff;
+            background: var(--color-info-light);
             padding: 3px 8px;
             border-radius: var(--radius-sm);
+            border: 2px solid rgba(118, 199, 250, 0.2);
         }
 
-        /* Code Blocks */
+        /* Code Blocks - Kawaii Style */
         code {
-            background: #f4f4f5;
+            background: var(--color-accent-light);
             padding: 4px 10px;
             border-radius: var(--radius-md);
             font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
             font-size: 0.875rem;
             color: var(--color-text-primary);
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.2);
         }
 
         pre {
@@ -515,8 +622,8 @@
             border-radius: var(--radius-lg);
             overflow-x: auto;
             margin: 20px 0;
-            border: 1px solid #3f3f46;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(126, 206, 192, 0.2);
+            box-shadow: var(--shadow-md), inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         pre code {
@@ -528,7 +635,7 @@
             line-height: 1.7;
         }
 
-        /* Buttons */
+        /* Buttons - Kawaii Style */
         .back-to-top {
             position: fixed;
             bottom: 32px;
@@ -537,12 +644,12 @@
             height: 52px;
             background: var(--color-surface);
             color: var(--color-text-primary);
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.2);
             border-radius: 50%;
             cursor: pointer;
             font-size: 18px;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s var(--ease-spring);
             opacity: 0;
             visibility: hidden;
             z-index: 1000;
@@ -559,11 +666,11 @@
         }
 
         .back-to-top:hover {
-            background: var(--color-accent);
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
             color: white;
             border-color: var(--color-accent);
             transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(126, 206, 192, 0.4);
         }
 
         .back-to-top:active {
@@ -576,14 +683,14 @@
             right: 100px;
             background: var(--color-surface);
             color: var(--color-text-primary);
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.2);
             padding: 12px 24px;
-            border-radius: 100px;
+            border-radius: var(--radius-full);
             cursor: pointer;
             font-size: 0.9375rem;
             font-weight: 500;
             box-shadow: var(--shadow-md);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s var(--ease-spring);
             z-index: 999;
             display: flex;
             align-items: center;
@@ -609,7 +716,7 @@
             box-shadow: var(--shadow-lg);
         }
 
-        /* Excel Section */
+        /* Excel Section - Kawaii Style */
         .excel-section {
             margin: 24px 0;
         }
@@ -619,8 +726,45 @@
             font-family: "JetBrains Mono", monospace;
         }
 
+        .excel-table th,
+        .excel-table td {
+            padding: 12px 14px;
+            white-space: nowrap;
+        }
+
+        .excel-table th:first-child,
+        .excel-table td:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        .excel-table th:nth-child(2),
+        .excel-table td:nth-child(2) {
+            width: 80px;
+        }
+
+        .excel-table th:nth-child(3),
+        .excel-table td:nth-child(3) {
+            width: 150px;
+        }
+
+        .excel-table th:nth-child(4),
+        .excel-table td:nth-child(4) {
+            width: 120px;
+        }
+
+        .excel-table th:nth-child(5),
+        .excel-table td:nth-child(5) {
+            width: 150px;
+        }
+
+        .excel-table th:nth-child(6),
+        .excel-table td:nth-child(6) {
+            width: 120px;
+        }
+
         .excel-header {
-            background: #f0f9ff !important;
+            background: var(--color-accent-light) !important;
         }
 
         .excel-row-header {
@@ -631,8 +775,8 @@
         }
 
         .excel-note {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border: 1px solid rgba(14, 165, 233, 0.15);
+            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
+            border: 2px solid rgba(126, 206, 192, 0.2);
             border-radius: var(--radius-lg);
             padding: 20px 24px;
             margin-top: 20px;
@@ -647,20 +791,21 @@
             gap: 8px;
         }
 
-        /* Feature Cards Grid */
+        /* Feature Cards Grid - Kawaii Style */
         .feature-card {
             background: var(--color-surface);
-            border: 1px solid var(--color-border);
+            border: 2px solid rgba(126, 206, 192, 0.15);
             border-radius: var(--radius-xl);
             padding: 28px;
             margin: 20px 0;
             box-shadow: var(--shadow-sm);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s var(--ease-spring);
         }
 
         .feature-card:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(126, 206, 192, 0.3);
         }
 
         .feature-card-title {
@@ -756,7 +901,7 @@
             }
         }
 
-        /* Smooth reveal animation */
+        /* Kawaii Animation System */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -768,8 +913,25 @@
             }
         }
 
+        @keyframes kawaiiFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-6px) rotate(2deg); }
+            50% { transform: translateY(-10px) rotate(0deg); }
+            75% { transform: translateY(-6px) rotate(-2deg); }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-30%) rotate(0deg); }
+            50% { transform: translateX(30%) rotate(5deg); }
+        }
+
+        @keyframes kawaiiBounce {
+            0%, 100% { transform: translateY(-4px) scale(1.03); }
+            50% { transform: translateY(-10px) scale(1.03); }
+        }
+
         .container > * {
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeInUp 0.6s var(--ease-spring) forwards;
         }
 
         .container > *:nth-child(1) { animation-delay: 0.05s; }
@@ -777,6 +939,11 @@
         .container > *:nth-child(3) { animation-delay: 0.15s; }
         .container > *:nth-child(4) { animation-delay: 0.2s; }
         .container > *:nth-child(5) { animation-delay: 0.25s; }
+
+        /* 悬浮动画装饰 - 给标题添加 */
+        .header h1 {
+            animation: fadeInUp 0.6s var(--ease-spring) forwards;
+        }
     </style>
 </head>
 <body>
@@ -844,97 +1011,97 @@
 
         <h2 id="section-flowchart">二、脚本流程示意</h2>
         <div class="flowchart-container">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1100" preserveAspectRatio="xMidYMid meet" style="background-color: #f8faff; font-family: 'Geist', sans-serif; max-height: 850px; width: 100%; display: block; margin: 0 auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1100" preserveAspectRatio="xMidYMid meet" style="background-color: #f8faf8; font-family: 'Geist', sans-serif; max-height: 850px; width: 100%; display: block; margin: 0 auto;">
             <defs>
-                <!-- 箭头标记 -->
+                <!-- 箭头标记 - Kawaii配色 -->
                 <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7f8c8d" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#718096" />
                 </marker>
                 <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2ecc71" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#68D391" />
                 </marker>
                 <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#FC8181" />
                 </marker>
                 <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3498db" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7EB8DA" />
                 </marker>
                 <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e67e22" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#F6AD55" />
                 </marker>
                 <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b59b6" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#B5A8D8" />
                 </marker>
-                
+
                 <!-- 阴影滤镜 -->
                 <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.1"/>
+                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#7ECEC0" flood-opacity="0.15"/>
                 </filter>
 
-                <!-- 渐变 -->
+                <!-- Kawaii渐变 -->
                 <linearGradient id="grad-green" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#2ecc71" />
-                <stop offset="100%" stop-color="#27ae60" />
+                <stop offset="0%" stop-color="#7ECEC0" />
+                <stop offset="100%" stop-color="#5EBBA9" />
                 </linearGradient>
                 <linearGradient id="grad-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#54a0ff" />
-                <stop offset="100%" stop-color="#2e86de" />
+                <stop offset="0%" stop-color="#7EB8DA" />
+                <stop offset="100%" stop-color="#5A9BC9" />
                 </linearGradient>
                 <linearGradient id="grad-orange" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#f39c12" />
-                <stop offset="100%" stop-color="#d35400" />
+                <stop offset="0%" stop-color="#F6AD55" />
+                <stop offset="100%" stop-color="#ED8936" />
                 </linearGradient>
                 <linearGradient id="grad-purple1" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#a29bfe" />
-                <stop offset="100%" stop-color="#6c5ce7" />
+                <stop offset="0%" stop-color="#B5A8D8" />
+                <stop offset="100%" stop-color="#9B8DC8" />
                 </linearGradient>
                 <linearGradient id="grad-purple2" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#c56cf0" />
-                <stop offset="100%" stop-color="#8e44ad" />
+                <stop offset="0%" stop-color="#D0C8E8" />
+                <stop offset="100%" stop-color="#B5A8D8" />
                 </linearGradient>
             </defs>
 
             <!-- 连线 (含折线) -->
             <!-- 准备 -> 运行脚本 -->
-            <line x1="400" y1="120" x2="400" y2="165" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="120" x2="400" y2="165" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 运行脚本 -> 选择类别 -->
-            <line x1="400" y1="215" x2="400" y2="265" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="215" x2="400" y2="265" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 选择类别 -> 判定Excel -->
-            <line x1="400" y1="315" x2="400" y2="365" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
-            
+            <line x1="400" y1="315" x2="400" y2="365" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+
             <!-- 判定Excel -> 登录PLM (通过) -->
-            <line x1="400" y1="435" x2="400" y2="485" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrow-green)" />
-            <text x="410" y="465" fill="#2ecc71" font-size="12">通过</text>
-            
+            <line x1="400" y1="435" x2="400" y2="485" stroke="#68D391" stroke-width="2" marker-end="url(#arrow-green)" />
+            <text x="410" y="465" fill="#68D391" font-size="12">通过</text>
+
             <!-- 判定Excel -> 返回修改Excel (不通过) -->
-            <polyline points="500,400 620,400 620,535" fill="none" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-red)" />
-            <text x="520" y="390" fill="#e74c3c" font-size="12">检测不通过</text>
+            <polyline points="500,400 620,400 620,535" fill="none" stroke="#FC8181" stroke-width="2" marker-end="url(#arrow-red)" />
+            <text x="520" y="390" fill="#FC8181" font-size="12">检测不通过</text>
 
             <!-- 登录PLM -> 检索匹配 -->
-            <line x1="400" y1="535" x2="400" y2="575" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="535" x2="400" y2="575" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
 
             <!-- 检索匹配 -> 自动填写 (唯一匹配) -->
-            <polyline points="300,610 210,610 210,740 285,740" fill="none" stroke="#3498db" stroke-width="2" marker-end="url(#arrow-blue)" />
-            <text x="240" y="600" fill="#3498db" font-size="12">唯一匹配</text>
+            <polyline points="300,610 210,610 210,740 285,740" fill="none" stroke="#7EB8DA" stroke-width="2" marker-end="url(#arrow-blue)" />
+            <text x="240" y="600" fill="#7EB8DA" font-size="12">唯一匹配</text>
 
             <!-- 检索匹配 -> 弹窗提示 (多结果) -->
-            <polyline points="500,610 560,610 560,655" fill="none" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-orange)" />
-            <text x="505" y="600" fill="#e67e22" font-size="12">多结果匹配</text>
+            <polyline points="500,610 560,610 560,655" fill="none" stroke="#F6AD55" stroke-width="2" marker-end="url(#arrow-orange)" />
+            <text x="505" y="600" fill="#F6AD55" font-size="12">多结果匹配</text>
 
             <!-- 弹窗提示 -> 自动填写 (用户选择) -->
-            <polyline points="620,665 620,702 515,702" fill="none" stroke="#e67e22" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-orange)" />
-            <text x="630" y="690" fill="#e67e22" font-size="12">用户选择/手动选择</text>
+            <polyline points="620,665 620,702 515,702" fill="none" stroke="#F6AD55" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-orange)" />
+            <text x="630" y="690" fill="#F6AD55" font-size="12">用户选择/手动选择</text>
 
             <!-- 自动填写 -> 登录PLM (循环下一个) -->
-            <polyline points="510,702 680,702 680,510 515,510" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-purple)" />
-            <text x="600" y="500" fill="#9b59b6" font-size="12">处理下一个物料</text>
+            <polyline points="510,702 680,702 680,510 515,510" fill="none" stroke="#B5A8D8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-purple)" />
+            <text x="600" y="500" fill="#B5A8D8" font-size="12">处理下一个物料</text>
 
             <!-- 自动填写 -> 上传附件 -->
-            <line x1="400" y1="730" x2="400" y2="755" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="730" x2="400" y2="755" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 上传附件 -> 弹窗统计 -->
-            <line x1="400" y1="805" x2="400" y2="830" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="805" x2="400" y2="830" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 弹窗统计 -> 提交审批 -->
-            <line x1="400" y1="880" x2="400" y2="905" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="880" x2="400" y2="905" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
 
             <!-- 节点: 准备附件 -->
             <g transform="translate(300, 60)" filter="url(#shadow)">
