@@ -4,66 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>批量申请料号自动化工具 - 操作指南</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* Kawaii Minimal 配色系统 */
-            --color-bg: #FDFDFB;
-            --color-surface: #FFFEFC;
-            --color-text-primary: #2D3748;
-            --color-text-secondary: #4A5568;
-            --color-text-muted: #718096;
-            --color-border: #E2E8F0;
-
-            /* 主色-薄荷绿系 */
-            --color-accent: #7ECEC0;
-            --color-accent-hover: #5EBBA9;
-            --color-accent-light: #E8F6F2;
-            --color-accent-soft: #9ED9CD;
-
-            /* 辅色-天蓝色 */
-            --color-secondary: #7EB8DA;
-            --color-secondary-soft: #E5F2FA;
-            --color-secondary-light: #A5C9E6;
-
-            /* 点缀色-淡紫色 */
-            --color-purple: #B5A8D8;
-            --color-purple-soft: #F0EDF8;
-            --color-purple-light: #D0C8E8;
-
-            /* 状态色 - 柔和版本 */
-            --color-success: #68D391;
-            --color-success-light: #C6F6D5;
-            --color-warning: #F6AD55;
-            --color-warning-light: #FEEBC8;
-            --color-error: #FC8181;
-            --color-error-light: #FED7D7;
-            --color-info: #76C7FA;
-            --color-info-light: #BEE3F8;
-
-            /* 阴影系统 - 薄荷绿色调 */
-            --shadow-xs: 0 2px 4px rgba(126, 206, 192, 0.08);
-            --shadow-sm: 0 4px 12px rgba(126, 206, 192, 0.12);
-            --shadow-md: 0 8px 20px rgba(126, 206, 192, 0.18);
-            --shadow-lg: 0 12px 32px rgba(126, 206, 192, 0.25);
-            --shadow-xl: 0 16px 48px rgba(126, 206, 192, 0.3);
-
-            /* 圆角系统 - 超大圆角 */
-            --radius-sm: 12px;
-            --radius-md: 18px;
-            --radius-lg: 24px;
-            --radius-xl: 30px;
-            --radius-2xl: 40px;
-            --radius-full: 9999px;
-
-            /* 弹簧物理动画缓动 */
-            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -75,175 +16,40 @@
         }
 
         body {
-            font-family: 'Geist', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.7;
-            color: var(--color-text-primary);
-            background: linear-gradient(180deg, #F8FAFA 0%, #F5F8F7 50%, #F2F5F3 100%);
-            max-width: 1100px;
+            color: #334155; /* 深岩灰，提升易读性 */
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 24px;
-            font-size: 15px;
-            letter-spacing: -0.01em;
-            position: relative;
-            min-height: 100vh;
+            padding: 20px;
+            background: #fafaf9; /* 暖白背景，去除冷灰色 */
         }
 
-        /* 背景点阵图案 */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: radial-gradient(circle, rgba(126, 206, 192, 0.08) 1px, transparent 1px);
-            background-size: 24px 24px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* 背景柔和光晕 */
-        body::after {
-            content: '';
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
-            filter: blur(150px);
-            opacity: 0.06;
-            top: -100px;
-            right: -100px;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatGlow 20s ease-in-out infinite;
-        }
-
-        @keyframes floatGlow {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, 50px) scale(1.1); }
-            50% { transform: translate(0, 100px) scale(1); }
-            75% { transform: translate(-50px, 50px) scale(0.9); }
-        }
-
-        /* Kawaii Container */
         .container {
-            background: rgba(255, 254, 252, 0.95);
-            border-radius: var(--radius-2xl);
-            border: 2px solid rgba(126, 206, 192, 0.12);
-            box-shadow: var(--shadow-md);
-            padding: 48px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 1;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* 更通透的悬浮阴影 */
+            padding: 40px;
+            border: 1px solid #f1f5f9;
         }
 
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-        }
-
-        /* 彩虹渐变顶部装饰 */
-        .container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-secondary) 50%, var(--color-purple) 100%);
-        }
-
-        /* Header Section */
-        .header {
-            margin-bottom: 40px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.2;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 50%, var(--color-purple) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .meta {
-            color: var(--color-text-muted);
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .meta-separator {
-            width: 4px;
-            height: 4px;
-            background: var(--color-border);
-            border-radius: 50%;
-        }
-
-        /* Table of Contents - Kawaii Bento Style */
+        /* 顶部目录导航 */
         .toc {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
-            border-radius: var(--radius-xl);
-            padding: 28px 32px;
-            margin-bottom: 48px;
-            border: 2px solid rgba(126, 206, 192, 0.15);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .toc::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--color-accent), var(--color-secondary));
+            background: #f0f9ff; /* 清新的浅海蓝色背景 */
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0ea5e9; /* 海蓝高亮 */
         }
 
         .toc-title {
-            font-size: 1.125rem;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--color-text-primary);
-        }
-
-        .toc-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
-            color: white;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 700;
+            color: #0f172a;
         }
 
         .toc-list {
@@ -256,261 +62,157 @@
         }
 
         .toc-list a {
-            color: var(--color-text-secondary);
+            color: #0369a1;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            background: var(--color-surface);
-            border: 2px solid var(--color-border);
-            transition: all 0.3s var(--ease-spring);
-            font-size: 0.9375rem;
-            font-weight: 500;
-            box-shadow: var(--shadow-xs);
-        }
-
-        .toc-list a::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--color-accent);
-            border-radius: 50%;
-            transition: all 0.3s var(--ease-spring);
+            display: block;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border: 1px solid #e0f2fe;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.01);
         }
 
         .toc-list a:hover {
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
-            color: white;
-            border-color: var(--color-accent);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-lg);
+            background: #0ea5e9;
+            color: #ffffff;
+            border-color: #0ea5e9;
+            transform: translateY(-1px);
         }
 
-        .toc-list a:hover::before {
-            background: white;
-            transform: scale(1.5);
-        }
-
-        /* Section Headings */
-        h2 {
-            font-size: 1.5rem;
+        /* 标题样式 */
+        h1 {
+            color: #0f172a; /* 近乎黑色的深蓝，对比度更强 */
+            font-size: 28px;
+            margin-bottom: 10px;
             font-weight: 700;
-            margin: 48px 0 20px 0;
-            scroll-margin-top: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .meta {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 30px;
+            font-style: italic;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            color: #0f172a;
+            font-size: 22px;
+            margin: 40px 0 15px 0;
+            font-weight: 700;
+            scroll-margin-top: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: var(--color-text-primary);
-            letter-spacing: -0.02em;
         }
 
         h2::before {
-            content: '';
+            content: "";
             display: inline-block;
-            width: 6px;
-            height: 24px;
-            background: linear-gradient(180deg, var(--color-accent), var(--color-secondary));
-            border-radius: 3px;
+            width: 4px;
+            height: 18px;
+            background: #0ea5e9;
+            margin-right: 10px;
+            border-radius: 2px;
         }
 
         h3 {
-            font-size: 1.25rem;
-            margin: 32px 0 16px 0;
-            scroll-margin-top: 24px;
+            color: #1e293b;
+            font-size: 17px;
+            margin: 25px 0 12px 0;
+            scroll-margin-top: 20px;
             font-weight: 600;
-            color: var(--color-text-primary);
-            letter-spacing: -0.01em;
         }
 
         h4 {
-            font-size: 1.0625rem;
-            margin: 24px 0 12px 0;
+            color: #0284c7;
+            font-size: 15px;
+            margin: 20px 0 10px 0;
             font-weight: 600;
-            color: var(--color-accent-hover);
         }
 
         p {
             margin-bottom: 16px;
-            color: var(--color-text-secondary);
-            line-height: 1.8;
-            max-width: 65ch;
         }
 
-        /* Alert Boxes - Kawaii Style */
+        /* 提示框与说明注释（清爽的彩色系） */
         .info, .warning, .tip, .feature-box {
-            padding: 20px 24px;
-            margin: 24px 0;
-            border-radius: var(--radius-lg);
-            font-size: 0.9375rem;
-            position: relative;
-            border: 2px solid;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            transition: all 0.3s var(--ease-spring);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14.5px;
         }
 
         .info {
-            background: linear-gradient(135deg, var(--color-info-light) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(118, 199, 250, 0.25);
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
             color: #075985;
-            box-shadow: 0 4px 20px rgba(118, 199, 250, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(118, 199, 250, 0.15);
-        }
-
-        .info-title, .warning-title, .tip-title, .feature-box-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9375rem;
         }
 
         .info-title {
             color: #0369a1;
-        }
-
-        .info-title::before {
-            content: 'i';
-            width: 18px;
-            height: 18px;
-            background: var(--color-info);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
             font-weight: 700;
-            font-family: Georgia, serif;
-            font-style: italic;
+            margin-bottom: 8px;
         }
 
         .warning {
-            background: linear-gradient(135deg, var(--color-warning-light) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(246, 173, 85, 0.3);
+            background: #fffbeb;
+            border: 1px solid #fde68a;
             color: #92400e;
-            box-shadow: 0 4px 20px rgba(246, 173, 85, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .warning:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(246, 173, 85, 0.18);
         }
 
         .warning-title {
             color: #b45309;
-        }
-
-        .warning-title::before {
-            content: '!';
-            width: 18px;
-            height: 18px;
-            background: var(--color-warning);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
             font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .tip {
-            background: linear-gradient(135deg, var(--color-success-light) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(104, 211, 145, 0.25);
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
             color: #166534;
-            box-shadow: 0 4px 20px rgba(104, 211, 145, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        .tip:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(104, 211, 145, 0.15);
         }
 
         .tip-title {
             color: #15803d;
-        }
-
-        .tip-title::before {
-            content: '';
-            width: 18px;
-            height: 18px;
-            background: var(--color-success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .tip-title::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-right: 2px solid white;
-            border-bottom: 2px solid white;
-            transform: rotate(45deg) translate(-1px, -1px);
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .feature-box {
-            background: linear-gradient(135deg, var(--color-purple-soft) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-color: rgba(181, 168, 216, 0.2);
-            color: var(--color-text-secondary);
-            box-shadow: 0 4px 20px rgba(181, 168, 216, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-        }
-
-        .feature-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(181, 168, 216, 0.12);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            color: #334155;
         }
 
         .feature-box-title {
-            color: var(--color-text-primary);
-        }
-
-        /* Step Cards - Kawaii Bento Style */
-        .step {
-            background: var(--color-surface);
-            border: 2px solid rgba(126, 206, 192, 0.15);
-            border-radius: var(--radius-xl);
-            padding: 28px;
-            margin: 20px 0;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s var(--ease-spring);
-        }
-
-        .step:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px) scale(1.01);
-            border-color: rgba(126, 206, 192, 0.3);
-        }
-
-        .step-title {
             font-weight: 600;
-            color: var(--color-accent-hover);
-            margin-bottom: 16px;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #0f172a;
+            margin-bottom: 10px;
         }
 
-        /* Flowchart Container */
+        /* 步骤块 */
+        .step {
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        /* 流程图样式 */
         .flowchart-container {
-            background: linear-gradient(135deg, #f8fafc 0%, var(--color-surface) 100%);
-            border-radius: var(--radius-xl);
-            padding: 32px;
-            margin: 28px 0;
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e0f2fe;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
         }
 
         .flowchart-svg {
@@ -521,33 +223,35 @@
             margin: 0 auto;
         }
 
-        /* Tables - Kawaii Style */
+        .step-title {
+            font-weight: 600;
+            color: #0ea5e9;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        /* 表格样式 */
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 24px 0;
-            font-size: 0.9375rem;
-            border-radius: var(--radius-lg);
+            margin: 20px 0;
+            font-size: 14px;
+            border-radius: 8px;
             overflow: hidden;
-            border: 2px solid rgba(126, 206, 192, 0.15);
-            background: var(--color-surface);
-            box-shadow: var(--shadow-sm);
+            border: 1px solid #e2e8f0;
         }
 
         th, td {
-            padding: 14px 18px;
+            padding: 14px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--color-border);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         th {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
+            background: #f8fafc;
             font-weight: 600;
-            color: var(--color-text-primary);
-            font-size: 0.875rem;
-            letter-spacing: 0.01em;
-            text-transform: uppercase;
+            color: #0f172a;
         }
 
         tr:last-child td {
@@ -555,109 +259,94 @@
         }
 
         tr:hover td {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.05) 100%);
+            background: #f8fafc;
         }
 
-        /* Lists */
+        /* 列表与注释文本 */
         ul, ol {
-            margin: 12px 0 18px 24px;
+            margin: 10px 0 16px 25px;
         }
 
         li {
             margin: 8px 0;
-            color: var(--color-text-secondary);
         }
 
-        li::marker {
-            color: var(--color-accent-hover);
-        }
-
-        /* Highlight & Text Styles - Kawaii Style */
         .highlight {
-            color: var(--color-error);
+            color: #ef4444; /* 鲜艳的红色高亮 */
             font-weight: 600;
-            background: var(--color-error-light);
-            padding: 2px 8px;
-            border-radius: var(--radius-sm);
-            font-size: 0.9375em;
-            border: 2px solid rgba(252, 129, 129, 0.2);
+            background: #fef2f2;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
         .required {
-            color: var(--color-error);
+            color: #ef4444;
             font-weight: 600;
         }
 
         .optional {
-            color: var(--color-text-muted);
+            color: #94a3b8;
             font-style: italic;
         }
 
+        /* 注释字体设计 */
         .excel-comment {
-            color: #0891b2;
-            font-size: 0.9375rem;
+            color: #0891b2; /* 青色注释 */
+            font-size: 13.5px;
             font-style: italic;
-            font-family: Georgia, "Times New Roman", serif;
-            background: var(--color-info-light);
-            padding: 3px 8px;
-            border-radius: var(--radius-sm);
-            border: 2px solid rgba(118, 199, 250, 0.2);
+            font-family: "Georgia", "Times New Roman", serif; /* 衬线字体 */
+            background: #ecfeff;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
 
-        /* Code Blocks - Kawaii Style */
+        /* 代码块 */
         code {
-            background: var(--color-accent-light);
-            padding: 4px 10px;
-            border-radius: var(--radius-md);
-            font-family: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
-            font-size: 0.875rem;
-            color: var(--color-text-primary);
-            border: 2px solid rgba(126, 206, 192, 0.2);
+            background: #f1f5f9;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: "Cascadia Code", "Consolas", monospace;
+            font-size: 13.5px;
+            color: #0f172a;
         }
 
         pre {
-            background: linear-gradient(180deg, #18181b 0%, #27272a 100%);
-            color: #f4f4f5;
-            padding: 20px 24px;
-            border-radius: var(--radius-lg);
+            background: #0f172a; /* 深蓝色代码块背景 */
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
             overflow-x: auto;
-            margin: 20px 0;
-            border: 2px solid rgba(126, 206, 192, 0.2);
-            box-shadow: var(--shadow-md), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 16px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
         pre code {
             background: transparent;
             color: inherit;
             padding: 0;
-            border: none;
-            font-size: 0.875rem;
-            line-height: 1.7;
         }
 
-        /* Buttons - Kawaii Style */
+        /* 按钮样式 */
         .back-to-top {
             position: fixed;
-            bottom: 32px;
-            right: 32px;
-            width: 52px;
-            height: 52px;
-            background: var(--color-surface);
-            color: var(--color-text-primary);
-            border: 2px solid rgba(126, 206, 192, 0.2);
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: #0ea5e9;
+            color: white;
+            border: none;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 18px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s var(--ease-spring);
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             visibility: hidden;
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
         }
 
         .back-to-top.visible {
@@ -666,322 +355,62 @@
         }
 
         .back-to-top:hover {
-            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-secondary) 100%);
-            color: white;
-            border-color: var(--color-accent);
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 20px 40px -10px rgba(126, 206, 192, 0.4);
-        }
-
-        .back-to-top:active {
-            transform: translateY(-2px) scale(0.98);
+            background: #0284c7;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.4);
         }
 
         .print-btn {
             position: fixed;
-            bottom: 32px;
-            right: 100px;
-            background: var(--color-surface);
-            color: var(--color-text-primary);
-            border: 2px solid rgba(126, 206, 192, 0.2);
-            padding: 12px 24px;
-            border-radius: var(--radius-full);
+            bottom: 34px;
+            right: 95px;
+            background: #ffffff;
+            color: #0f172a;
+            border: 1px solid #e2e8f0;
+            padding: 10px 24px;
+            border-radius: 24px;
             cursor: pointer;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s var(--ease-spring);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
             z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .print-btn::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 6 2 18 2 18 9'%3E%3C/polyline%3E%3Cpath d='M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2'%3E%3C/path%3E%3Crect x='6' y='14' width='12' height='8'%3E%3C/rect%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.7;
         }
 
         .print-btn:hover {
-            border-color: var(--color-accent);
-            color: var(--color-accent);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            border-color: #0ea5e9;
+            color: #0ea5e9;
+            box-shadow: 0 6px 12px rgba(14, 165, 233, 0.1);
         }
 
-        /* Excel Section - Kawaii Style */
-        .excel-section {
-            margin: 24px 0;
-        }
-
-        .excel-table {
-            font-size: 0.875rem;
-            font-family: "JetBrains Mono", monospace;
-        }
-
-        .excel-table th,
-        .excel-table td {
-            padding: 12px 14px;
-            white-space: nowrap;
-        }
-
-        .excel-table th:first-child,
-        .excel-table td:first-child {
-            width: 60px;
-            text-align: center;
-        }
-
-        .excel-table th:nth-child(2),
-        .excel-table td:nth-child(2) {
-            width: 80px;
-        }
-
-        .excel-table th:nth-child(3),
-        .excel-table td:nth-child(3) {
-            width: 150px;
-        }
-
-        .excel-table th:nth-child(4),
-        .excel-table td:nth-child(4) {
-            width: 120px;
-        }
-
-        .excel-table th:nth-child(5),
-        .excel-table td:nth-child(5) {
-            width: 150px;
-        }
-
-        .excel-table th:nth-child(6),
-        .excel-table td:nth-child(6) {
-            width: 120px;
-        }
-
-        .excel-header {
-            background: var(--color-accent-light) !important;
-        }
-
-        .excel-row-header {
-            background: #f8fafc;
-            font-weight: 600;
-            color: var(--color-text-muted);
-            text-align: center;
-        }
-
-        .excel-note {
-            background: linear-gradient(135deg, var(--color-accent-light) 0%, rgba(126, 184, 218, 0.08) 100%);
-            border: 2px solid rgba(126, 206, 192, 0.2);
-            border-radius: var(--radius-lg);
-            padding: 20px 24px;
-            margin-top: 20px;
-        }
-
-        .excel-note-title {
-            font-weight: 600;
-            color: var(--color-accent-hover);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Feature Cards Grid - Kawaii Style */
-        .feature-card {
-            background: var(--color-surface);
-            border: 2px solid rgba(126, 206, 192, 0.15);
-            border-radius: var(--radius-xl);
-            padding: 28px;
-            margin: 20px 0;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s var(--ease-spring);
-        }
-
-        .feature-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px) scale(1.01);
-            border-color: rgba(126, 206, 192, 0.3);
-        }
-
-        .feature-card-title {
-            font-weight: 600;
-            color: var(--color-text-primary);
-            margin-bottom: 12px;
-            font-size: 1.0625rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Footer */
-        .footer {
-            margin-top: 64px;
-            padding-top: 32px;
-            border-top: 1px solid var(--color-border);
-            text-align: center;
-            color: var(--color-text-muted);
-            font-size: 0.9375rem;
-        }
-
-        /* Image Caption */
-        .image-caption {
-            text-align: center;
-            color: var(--color-text-muted);
-            font-size: 0.875rem;
-            margin-top: 12px;
-            font-style: italic;
-        }
-
-        .guide-image {
-            width: 100%;
-            max-width: 600px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-border);
-            box-shadow: var(--shadow-sm);
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Print Styles */
+        /* 媒体查询 */
         @media print {
-            body { 
-                background: white; 
-                padding: 0;
-            }
-            .container { 
-                box-shadow: none; 
-                border: none;
-                border-radius: 0;
-            }
-            .print-btn, .back-to-top, .toc { 
-                display: none; 
-            }
-            h2, h3 { 
-                scroll-margin-top: 0; 
-            }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; }
+            .print-btn, .back-to-top, .toc { display: none; }
+            h2, h3 { scroll-margin-top: 0; }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 16px;
-            }
-            .container {
-                padding: 24px;
-                border-radius: var(--radius-xl);
-            }
-            h1 {
-                font-size: 1.75rem;
-            }
-            h2 {
-                font-size: 1.25rem;
-            }
-            .toc {
-                padding: 20px;
-            }
-            .toc-list {
-                grid-template-columns: 1fr;
-            }
-            .step {
-                padding: 20px;
-            }
-            .print-btn {
-                right: 16px;
-                bottom: 80px;
-                padding: 10px 18px;
-            }
-            .back-to-top {
-                right: 16px;
-                bottom: 24px;
-            }
+            .container { padding: 24px; }
+            .print-btn { right: 20px; bottom: 90px; }
         }
 
-        /* Kawaii Animation System */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes kawaiiFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-6px) rotate(2deg); }
-            50% { transform: translateY(-10px) rotate(0deg); }
-            75% { transform: translateY(-6px) rotate(-2deg); }
-        }
-
-        @keyframes shimmer {
-            0%, 100% { transform: translateX(-30%) rotate(0deg); }
-            50% { transform: translateX(30%) rotate(5deg); }
-        }
-
-        @keyframes kawaiiBounce {
-            0%, 100% { transform: translateY(-4px) scale(1.03); }
-            50% { transform: translateY(-10px) scale(1.03); }
-        }
-
-        .container > * {
-            animation: fadeInUp 0.6s var(--ease-spring) forwards;
-        }
-
-        .container > *:nth-child(1) { animation-delay: 0.05s; }
-        .container > *:nth-child(2) { animation-delay: 0.1s; }
-        .container > *:nth-child(3) { animation-delay: 0.15s; }
-        .container > *:nth-child(4) { animation-delay: 0.2s; }
-        .container > *:nth-child(5) { animation-delay: 0.25s; }
-
-        /* 悬浮动画装饰 - 给标题添加 */
-        .header h1 {
-            animation: fadeInUp 0.6s var(--ease-spring) forwards;
-        }
     </style>
 </head>
 <body>
     <!-- 返回顶部按钮 -->
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
-    </button>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">↑</button>
     
     <div class="container">
-        <div class="header">
-            <h1>批量申请料号自动化工具 - 操作指南</h1>
-            <div class="meta">
-                <span class="meta-item">
-                    <span>版本: v1.0</span>
-                </span>
-                <span class="meta-separator"></span>
-                <span class="meta-item">
-                    <span>更新时间: 2026-03-01</span>
-                </span>
-                <span class="meta-separator"></span>
-                <span class="meta-item">
-                    <span>适用对象: 使用本工具的所有用户</span>
-                </span>
-                <span class="meta-separator"></span>
-                <span class="meta-item">
-                    <span>编写人: 刘明星</span>
-                </span>
-            </div>
+        <h1>批量申请料号自动化工具 - 操作指南</h1>
+        <div class="meta">
+            版本: v1.6 | 更新时间: 2026-03-15 | 适用对象: 使用本工具的所有用户 | 编写人：刘明星
         </div>
 
         <!-- 目录导航 -->
         <nav class="toc">
-            <div class="toc-title">
-                <span class="toc-icon">#</span>
-                目录导航（点击快速跳转）
-            </div>
+            <div class="toc-title">📑 目录导航（点击快速跳转）</div>
             <ul class="toc-list">
                 <li><a href="#section1">一、工具简介</a></li>
                 <li><a href="#section-flowchart">二、脚本流程示意</a></li>
@@ -1000,113 +429,109 @@
         <h3>主要功能</h3>
         <ul>
             <li>自动/手动登录系统</li>
+            <li><strong>自动生成Excel模板</strong> - 根据物料类别自动创建规范化的Excel模板文件</li>
             <li>根据EXCEL内容批量创建物料</li>
-            <li>自动填写料号详细属性</li>
-            <li>自动填写供应商规格型号及客户料号信息</li>
-            <li>自动上传附件（如有）</li>
-            <li>检索多结果弹窗提示选择</li>
-            <li>对异常提示弹窗自动处理</li>
-            <li>完成报告弹窗展示</li>
+            <li><strong>自动创建并智能匹配图纸文件</strong> - 自动创建附件文件夹，使用模糊算法将图纸文件匹配并复制到对应附件文件夹</li>
         </ul>
 
         <h2 id="section-flowchart">二、脚本流程示意</h2>
         <div class="flowchart-container">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1100" preserveAspectRatio="xMidYMid meet" style="background-color: #f8faf8; font-family: 'Geist', sans-serif; max-height: 850px; width: 100%; display: block; margin: 0 auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 1100" preserveAspectRatio="xMidYMid meet" style="background-color: #f8faff; font-family: sans-serif; max-height: 850px; width: 100%; display: block; margin: 0 auto;">
             <defs>
-                <!-- 箭头标记 - Kawaii配色 -->
+                <!-- 箭头标记 -->
                 <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#718096" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7f8c8d" />
                 </marker>
                 <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#68D391" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2ecc71" />
                 </marker>
                 <marker id="arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#FC8181" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c" />
                 </marker>
                 <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7EB8DA" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3498db" />
                 </marker>
                 <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#F6AD55" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#e67e22" />
                 </marker>
                 <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#B5A8D8" />
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b59b6" />
                 </marker>
-
+                
                 <!-- 阴影滤镜 -->
                 <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#7ECEC0" flood-opacity="0.15"/>
+                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.1"/>
                 </filter>
 
-                <!-- Kawaii渐变 -->
+                <!-- 渐变 -->
                 <linearGradient id="grad-green" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#7ECEC0" />
-                <stop offset="100%" stop-color="#5EBBA9" />
+                <stop offset="0%" stop-color="#2ecc71" />
+                <stop offset="100%" stop-color="#27ae60" />
                 </linearGradient>
                 <linearGradient id="grad-blue" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#7EB8DA" />
-                <stop offset="100%" stop-color="#5A9BC9" />
+                <stop offset="0%" stop-color="#54a0ff" />
+                <stop offset="100%" stop-color="#2e86de" />
                 </linearGradient>
                 <linearGradient id="grad-orange" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#F6AD55" />
-                <stop offset="100%" stop-color="#ED8936" />
+                <stop offset="0%" stop-color="#f39c12" />
+                <stop offset="100%" stop-color="#d35400" />
                 </linearGradient>
                 <linearGradient id="grad-purple1" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#B5A8D8" />
-                <stop offset="100%" stop-color="#9B8DC8" />
+                <stop offset="0%" stop-color="#a29bfe" />
+                <stop offset="100%" stop-color="#6c5ce7" />
                 </linearGradient>
                 <linearGradient id="grad-purple2" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#D0C8E8" />
-                <stop offset="100%" stop-color="#B5A8D8" />
+                <stop offset="0%" stop-color="#c56cf0" />
+                <stop offset="100%" stop-color="#8e44ad" />
                 </linearGradient>
             </defs>
 
             <!-- 连线 (含折线) -->
             <!-- 准备 -> 运行脚本 -->
-            <line x1="400" y1="120" x2="400" y2="165" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="120" x2="400" y2="165" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 运行脚本 -> 选择类别 -->
-            <line x1="400" y1="215" x2="400" y2="265" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="215" x2="400" y2="265" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 选择类别 -> 判定Excel -->
-            <line x1="400" y1="315" x2="400" y2="365" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
-
+            <line x1="400" y1="315" x2="400" y2="365" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
+            
             <!-- 判定Excel -> 登录PLM (通过) -->
-            <line x1="400" y1="435" x2="400" y2="485" stroke="#68D391" stroke-width="2" marker-end="url(#arrow-green)" />
-            <text x="410" y="465" fill="#68D391" font-size="12">通过</text>
-
+            <line x1="400" y1="435" x2="400" y2="485" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrow-green)" />
+            <text x="410" y="465" fill="#2ecc71" font-size="12">通过</text>
+            
             <!-- 判定Excel -> 返回修改Excel (不通过) -->
-            <polyline points="500,400 620,400 620,535" fill="none" stroke="#FC8181" stroke-width="2" marker-end="url(#arrow-red)" />
-            <text x="520" y="390" fill="#FC8181" font-size="12">检测不通过</text>
+            <polyline points="500,400 620,400 620,535" fill="none" stroke="#e74c3c" stroke-width="2" marker-end="url(#arrow-red)" />
+            <text x="520" y="390" fill="#e74c3c" font-size="12">检测不通过</text>
 
             <!-- 登录PLM -> 检索匹配 -->
-            <line x1="400" y1="535" x2="400" y2="575" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="535" x2="400" y2="575" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
 
             <!-- 检索匹配 -> 自动填写 (唯一匹配) -->
-            <polyline points="300,610 210,610 210,740 285,740" fill="none" stroke="#7EB8DA" stroke-width="2" marker-end="url(#arrow-blue)" />
-            <text x="240" y="600" fill="#7EB8DA" font-size="12">唯一匹配</text>
+            <polyline points="300,610 210,610 210,740 285,740" fill="none" stroke="#3498db" stroke-width="2" marker-end="url(#arrow-blue)" />
+            <text x="240" y="600" fill="#3498db" font-size="12">唯一匹配</text>
 
             <!-- 检索匹配 -> 弹窗提示 (多结果) -->
-            <polyline points="500,610 560,610 560,655" fill="none" stroke="#F6AD55" stroke-width="2" marker-end="url(#arrow-orange)" />
-            <text x="505" y="600" fill="#F6AD55" font-size="12">多结果匹配</text>
+            <polyline points="500,610 560,610 560,655" fill="none" stroke="#e67e22" stroke-width="2" marker-end="url(#arrow-orange)" />
+            <text x="505" y="600" fill="#e67e22" font-size="12">多结果匹配</text>
 
             <!-- 弹窗提示 -> 自动填写 (用户选择) -->
-            <polyline points="620,665 620,702 515,702" fill="none" stroke="#F6AD55" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-orange)" />
-            <text x="630" y="690" fill="#F6AD55" font-size="12">用户选择/手动选择</text>
+            <polyline points="620,665 620,702 515,702" fill="none" stroke="#e67e22" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-orange)" />
+            <text x="630" y="690" fill="#e67e22" font-size="12">用户选择/手动选择</text>
 
             <!-- 自动填写 -> 登录PLM (循环下一个) -->
-            <polyline points="510,702 680,702 680,510 515,510" fill="none" stroke="#B5A8D8" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-purple)" />
-            <text x="600" y="500" fill="#B5A8D8" font-size="12">处理下一个物料</text>
+            <polyline points="510,702 680,702 680,510 515,510" fill="none" stroke="#9b59b6" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-purple)" />
+            <text x="600" y="500" fill="#9b59b6" font-size="12">处理下一个物料</text>
 
             <!-- 自动填写 -> 上传附件 -->
-            <line x1="400" y1="730" x2="400" y2="755" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="730" x2="400" y2="755" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 上传附件 -> 弹窗统计 -->
-            <line x1="400" y1="805" x2="400" y2="830" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="805" x2="400" y2="830" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
             <!-- 弹窗统计 -> 提交审批 -->
-            <line x1="400" y1="880" x2="400" y2="905" stroke="#718096" stroke-width="2" marker-end="url(#arrow-gray)" />
+            <line x1="400" y1="880" x2="400" y2="905" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrow-gray)" />
 
             <!-- 节点: 准备附件 -->
             <g transform="translate(300, 60)" filter="url(#shadow)">
                 <rect width="200" height="60" rx="30" fill="url(#grad-green)" />
-                <text x="100" y="25" fill="white" font-size="16" font-weight="bold" text-anchor="middle">填写料号申请模板</text>
+                <text x="100" y="25" fill="white" font-size="16" font-weight="bold" text-anchor="middle">创建并填写料号申请模板</text>
                 <text x="100" y="45" fill="white" font-size="12" text-anchor="middle">创建附件文件夹</text>
             </g>
 
@@ -1205,8 +630,8 @@
 
         </div>
 
-        <div class="tip" style="background: linear-gradient(135deg, rgba(254, 252, 232, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%); border-color: rgba(245, 158, 11, 0.25);">
-            <div class="tip-title">流程说明</div>
+        <div class="tip" style="background: #fffbeb; border-left-color: #f59e0b;">
+            <div class="tip-title">💡 流程说明</div>
             <ul>
                 <li><strong>蓝色节点</strong>：系统自动处理，无需人工干预</li>
                 <li><strong>黄色菱形</strong>：判断分支，可能触发弹窗提示</li>
@@ -1228,8 +653,8 @@
         <h3>1、安装Python</h3>
         <p>双击目录中的 <code>python-3.14.3-amd64.exe</code> 进行安装：</p>
         
-        <img src="python_install_guide.png" alt="Python安装示意图" class="guide-image">
-        <div class="image-caption">Python安装步骤：勾选"Add python.exe to PATH"后点击Install Now</div>
+        <img src="functions/python_install_guide.png" alt="Python安装示意图" class="guide-image">
+        <div class="image-caption">▲ Python安装步骤：勾选"Add python.exe to PATH"后点击Install Now</div>
 
         <div class="tip">
             <div class="tip-title">安装要点</div>
@@ -1257,27 +682,32 @@
 
         <div class="step">
             <div class="step-title">步骤1: 配置账号</div>
-            <p>使用记事本打开文件夹下 <code>批量申请料号V1.0.py</code> 在文件开头将***改为PLM账号和密码即可自动登录:</p>
+            <p>使用记事本打开文件夹下 <code>账户密码配置.ini</code> 在文件开头将***改为PLM账号和密码即可自动登录:</p>
             <pre><code># ================= 用户名配置 =================
 user_name = "您的账号"      # 改为PLM账号，如保持***则需要手动输入
 user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动输入</code></pre>
-            <div class="tip">
-                <div class="tip-title">提示</div>
-                若不想明文存储密码，则忽略上述操作，需每次手动输入账号密码。
-            </div>
+
         </div>
 
         <div class="step">
             <div class="step-title">步骤2: 准备料号申请模板</div>
+            <p><strong>方式一：使用自动生成模板功能（推荐）</strong></p>
             <ol>
-                <li>在程序目录下创建 <code>.xlsx</code> 文件（可使用"料号批量申请模板.xlsx"进行更改）</li>
-                <li>按第五章规范填写数据（Sheet名称=物料类别）</li>
+                <li>双击运行 <code>06、自动生成Excel模板.py</code>（单类别）或 <code>07_批量自动生成Excel模板.py</code>（多类别）</li>
+                <li>在弹出的对话框中选择需要创建的物料类别</li>
+                <li>程序会自动生成规范的Excel模板文件，包含所有必填字段</li>
+            </ol>
+            
+            <p><strong>方式二：手动创建模板</strong></p>
+            <ol>
+                <li>在程序目录下创建 <code>.xlsx</code> 文件（可使用"批量创建料号模板"进行更改）</li>
+                <li>按第五章规范填写数据（<strong>Sheet名称=物料类别</strong>）</li>
                 <li><span class="highlight">填写后确保Excel文件已保存</span></li>
             </ol>
             <div class="warning">
                 <div class="warning-title">重要</div>
                 程序会自动读取当前目录下<strong>第一个</strong> <code>.xlsx</code> 文件作为数据源，
-                因此文件夹下只能放一个excel文件，不要有多余excel文件；
+                因此文件夹下只能放一个excel文件，不要有多余excel文件，或者将需要的文件前置；
             </div>
         </div>
 
@@ -1289,38 +719,49 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                 <li>将需要上传的附件放入对应文件夹</li>
             </ol>
             <p>示例: <code>三赢兴&amp;SWM547181A0M-C-VA</code></p>
-            <p>双击运行 <code>一键创建附件文件夹.py</code> 可以批量创建文件夹（需提前填写好料号申请模板中的供应商及规格型号）:</p>
-                <div class="tip">
+            <p>双击运行 <code>一键创建附件文件夹.py</code> 可以批量创建文件夹（需提前填写好料号申请模板中的<strong>供应商及规格型号</strong>）:</p>
+            
+            <div class="info" style="margin-top: 15px;">
+                <div class="info-title">📎 智能匹配图纸文件功能</div>
+                <p>当图纸文件较多时，且图纸均以规格型号命名，可使用智能匹配功能自动将图纸分配到对应文件夹：</p>
+                <ol>
+                    <li>将所有图纸文件放入"附件"文件夹（或任意源文件夹）</li>
+                    <li>双击运行 <code>智能匹配图纸文件.py</code></li>
+                    <li>选择存放图纸的源文件夹</li>
+                    <li>程序自动根据<strong>规格型号</strong>模糊匹配，将图纸复制到对应文件夹</li>
+                    <li>未匹配的文件夹会弹出对话框提示手动选择</li>
+                </ol>
+            </div>
+            
+            <div class="tip">
                 <div class="tip-title">提示</div>
                 若不需要上传附件图纸，则忽略上述操作。
-                </div>  
+            </div>  
         </div>
 
         <div class="step">
             <div class="step-title">步骤4: 运行程序</div>
-            <p>双击 <strong>批量申请料号V1.0.py</strong> 运行程序或在命令行执行:</p>
-            <pre><code>python 批量申请料号最终版.py</code></pre>
+            <p>双击 <strong>批量申请料号.py</strong> 运行程序或在命令行执行:</p>
+            <pre><code>python 批量申请料号.py</code></pre>
         </div>
 
         <div class="step">
             <div class="step-title">步骤5: 监控运行过程</div>
             <p>程序会自动打开Chrome浏览器并执行:</p>
             <p><span class="highlight">注意：此时可以进行其他工作，但<strong>不要最小化浏览器</strong>，会极大减缓程序运行</span></p>
-            <pre><code>[1/8] 登录系统...
-[2/8] 寻找操作窗口...
-[3/8] 初始化选择物料类别: xxx
-[4/8] 选择产品配置: xxx  ← 每行数据独立选择
-[5/8] 开始填写详细属性...
-[6/8] 填写制供规属性信息...
-[7/8] 填写客户料号信息...
-[8/8] 创建临时物料...</code></pre>
+            <pre><code>  [1/7] 登录系统...
+  [2/7] 定位操作窗口...
+  [3/7] 选择物料类别: XXX
+  [4/7] 填写详细属性...
+  [5/7] 填写制供规属性...
+  [6/7] 填写客户料号信息... (或 跳过客户料号填写)
+  [7/7] 创建临时物料...</code></pre>
         </div>
 
         <div class="step">
-            <div class="step-title">步骤6: Sheet选择</div>
-            <p>如果Excel文件包含多个Sheet，程序会弹出选择对话框:</p>
+            <div class="step-title">步骤6: 物料类别选择</div>
             <div class="info">
-                <div class="info-title">Sheet选择对话框</div>
+                <div class="info-title">📋 物料类别选择对话框</div>
                 <p>当Excel中有多个Sheet时，会显示<strong>包含所有类别的下拉框</strong></p>
                 <p><strong>Sheet名称 = 物料类别</strong>，例如：OLED显示屏、SMT屏蔽罩等</p>
             </div>
@@ -1331,13 +772,13 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             </ol>
             
             <div class="info" style="margin-top: 20px;">
-                <div class="info-title">Excel内容自动检测</div>
+                <div class="info-title">🔍 Excel内容自动检测</div>
                 <p>选择Sheet后，系统会自动检测Excel填写规范。如发现异常，会弹出提示窗口：</p>
             </div>
             
             <table style="margin-top: 15px; font-size: 13px;">
                 <thead>
-                    <tr style="background: #f0f9ff;">
+                    <tr style="background: #e3f2fd;">
                         <th style="width: 25%; padding: 10px; text-align: left;">检测项目</th>
                         <th style="width: 45%; padding: 10px; text-align: left;">错误说明</th>
                         <th style="width: 30%; padding: 10px; text-align: left;">处理建议</th>
@@ -1407,14 +848,14 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                 <p>当检测到异常时，会弹出提示窗口，您可以选择：</p>
                 <ul>
                     <li><strong>【取消（重新填写Excel）】</strong>：返回修改Excel，修正后再运行程序</li>
-                    <li><strong>【确认（我已确认，继续创建）】</strong>：忽略警告继续执行（可能导致创建失败）</li>
+                    <li><strong>【确认（我已确认，继续创建）】</strong>：忽略警告继续执行<span class="highlight">（可能会导致创建失败）</span></li>
                 </ul>
             </div>
         </div>
 
         <div class="step">
-            <div class="step-title">步骤7: 物料类别/供应商/客户多结果选择（支持手动模式）</div>
-            <p>当搜索物料类别、供应商或客户有多个匹配结果时，程序会弹出<strong>选择对话框</strong>:</p>
+            <div class="step-title">步骤7: 物料类别多结果选择（支持手动模式）</div>
+            <p>当搜索物料类别有多个匹配结果时，程序会弹出<strong>选择对话框</strong>:</p>
             
             <div class="feature-box">
                 <p>当搜索结果有多个匹配项时，您有两种选择方式：</p>
@@ -1426,7 +867,8 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             
             <div class="warning">
                 <div class="warning-title">注意</div>
-                使用手动模式时，程序最多等待<strong>60秒</strong>，请在此期间完成选择并确认。
+                <li>使用手动模式时，程序最多等待<strong>60秒</strong>，请在此期间完成选择并确认。</li>
+                <li>当创建料号≥3时，会弹出进度监测窗口提示预计剩余时间</li>
             </div>
         </div>
 
@@ -1440,7 +882,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                     <li>自动点击【确定】关闭大弹窗</li>
                     <li>自动按回车确认后续可能弹出的小弹窗</li>
                 </ol>
-                <p style="margin-top: 10px; font-size: 13px; opacity: 0.9;">注意：程序会在报告中标记此类情况，请检查是否确实需要重复创建料号。</p>
+                <p style="margin-top: 10px; font-size: 13px; opacity: 0.9;">⚠️ 注意：程序会在报告中标记此类情况，请检查是否确实需要重复创建料号。</p>
             </div>
         </div>
 
@@ -1450,9 +892,9 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                 <div class="feature-box-title">完成报告对话框</div>
                 <p>程序运行结束后，会以<strong>弹窗形式</strong>展示处理结果：</p>
                 <ul>
-                    <li>显示所有成功创建的物料数量</li>
-                    <li>显示警告信息（如重复料号提醒）</li>
-                    <li>显示失败记录及原因</li>
+                    <li>✅ 显示所有成功创建的物料数量</li>
+                    <li>⚠️ 显示警告信息（如重复料号提醒）</li>
+                    <li>❌ 显示失败记录及原因</li>
                 </ul>
             </div>
             <p>点击弹窗中的<strong>【确定】</strong>按钮关闭报告。</p>
@@ -1463,7 +905,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
 
         <h3>Excel结构说明</h3>
         <div class="info">
-            <div class="info-title">Sheet名称 = 物料类别</div>
+            <div class="info-title">📁 Sheet名称 = 物料类别</div>
             <p>Sheet名称即物料类别的<strong>最后一个词条</strong>，如部件/华勤物料(数据治理)/结构料/金属件/屏蔽罩/SMT屏蔽罩，则Sheet名称为<strong>SMT屏蔽罩</strong>。</p></p>
             <p>例如：创建名为"OLED显示屏"的Sheet，程序会自动将其识别为物料类别。</p>
         </div>
@@ -1496,7 +938,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
         <h3>Excel模板示例</h3>
 
         <div class="excel-section">
-            <p><strong>数据列表区（第1行起）</strong></p>
+            <p><strong>▶ 数据列表区（第1行起）</strong></p>
             <table class="excel-table">
                 <tr class="excel-header">
                     <th style="width:60px">行号</th>
@@ -1553,7 +995,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             </table>
             
             <div class="excel-note">
-                <div class="excel-note-title">产品配置说明</div>
+                <div class="excel-note-title">📝 产品配置说明</div>
                 <p><strong>每行数据独立填写产品配置</strong>，程序会为每个物料单独选择对应的产品配置。</p>
                 <p>如果多行使用相同的产品配置，可以复制粘贴相同的值。</p>
             </div>
@@ -1564,7 +1006,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             <table>
                 <tr>
                     <th style="width:100px">列名</th>
-                    <th style="width:100px">必填</th>
+                    <th style="width:60px">必填</th>
                     <th>填写说明</th>
                 </tr>
                 <tr>
@@ -1663,7 +1105,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
         <h2 id="section5">六、功能详解</h2>
         
         <div class="feature-card">
-            <div class="feature-card-title">1. 手动选择模式</div>
+            <div class="feature-card-title">🎯 1. 手动选择模式</div>
             <p>当搜索物料类别、供应商或客户出现多个匹配结果时，除了从列表中选择，还可以选择在PLM弹窗中<strong>手动选择</strong>。</p>
             <h4>使用场景：</h4>
             <ul>
@@ -1681,7 +1123,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
         </div>
 
         <div class="feature-card">
-            <div class="feature-card-title">2. 客户料号提示弹窗自动处理</div>
+            <div class="feature-card-title">🤖 2. 客户料号提示弹窗自动处理</div>
             <p>当系统检测到相同规格型号或客户料号已存在时，会弹出"客户料号提示信息"弹窗。</p>
             <p>程序能够<strong>自动处理</strong>此类弹窗：</p>
             <ul>
@@ -1690,13 +1132,13 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                 <li>在最终报告中标记此类情况，提醒检查是否重复创建</li>
             </ul>
             <div class="warning">
-                <div class="warning-title">重要提醒</div>
+                <div class="warning-title">⚠️ 重要提醒</div>
                 虽然程序会自动处理客户料号提示弹窗，但<strong>请务必检查</strong>是否真的需要重复创建料号。如果是误填了重复信息，请在PLM中删除错误的料号申请。
             </div>
         </div>
 
         <div class="feature-card">
-            <div class="feature-card-title">3. 完成报告对话框</div>
+            <div class="feature-card-title">📊 3. 完成报告对话框</div>
             <p>程序运行结束后，会以<strong>弹窗形式</strong>展示完整的处理报告</p>
             <h4>报告内容包括：</h4>
             <ul>
@@ -1704,6 +1146,89 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
                 <li><strong>警告信息：</strong>如带*号信息未填写、客户料号重复创建提示等</li>
                 <li><strong>失败记录：</strong>失败物料的序号及具体原因</li>
             </ul>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-card-title">📋 4. 自动生成Excel模板</div>
+            <p>根据选择的物料类别，自动生成规范化的Excel模板文件。</p>
+            <h4>功能说明：</h4>
+            <ul>
+                <li><strong>单类别生成</strong>：运行 <code>自动生成Excel模板.py</code>，一次创建一个类别的模板</li>
+                <li><strong>多类别批量生成</strong>：运行 <code>批量自动生成Excel模板.py</code>，一次选择多个类别批量创建（需要使用记事本编辑物料类别）</li>
+            </ul>
+            <h4>模板特点：</h4>
+            <ul>
+                <li>自动包含所有该物料类别的必填字段</li>
+                <li>必填字段自动标记为黄色背景，方便识别</li>
+                <li>表头格式与PLM系统完全一致</li>
+                <li>Sheet名称自动设置为物料类别名称</li>
+            </ul>
+            <div class="tip">
+                <div class="tip-title">使用建议</div>
+                建议先使用自动生成模板功能创建Excel，再在此基础上填写数据，可避免表头错误导致的程序无法识别问题。
+            </div>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-card-title">🎯 5. 智能匹配图纸文件</div>
+            <p>自动将图纸文件根据规格型号模糊匹配到对应的附件文件夹。</p>
+            <h4>适用场景：</h4>
+            <ul>
+                <li>图纸文件较多，手动复制到各文件夹效率低</li>
+                <li>图纸文件名与规格型号不完全一致（如包含版本号、后缀等）</li>
+                <li>需要批量整理图纸文件到对应物料文件夹</li>
+            </ul>
+            <h4>匹配算法：</h4>
+            <table style="margin-top: 10px; font-size: 13px;">
+                <tr style="background: #e3f2fd;">
+                    <th style="width: 80px; padding: 8px;">匹配等级</th>
+                    <th style="width: 80px; padding: 8px;">相似度</th>
+                    <th style="padding: 8px;">说明</th>
+                    <th style="padding: 8px;">示例</th>
+                </tr>
+                <tr style="background: #fff;">
+                    <td style="padding: 8px; color: #15803d; font-weight: bold;">完全匹配</td>
+                    <td style="padding: 8px;">100%</td>
+                    <td style="padding: 8px;">型号与文件名完全一致</td>
+                    <td style="padding: 8px;"><code>100287056</code> = <code>100287056.pdf</code></td>
+                </tr>
+                <tr style="background: #f5f5f5;">
+                    <td style="padding: 8px; color: #0369a1; font-weight: bold;">核心匹配</td>
+                    <td style="padding: 8px;">95%</td>
+                    <td style="padding: 8px;">型号是文件名前缀，后跟分隔符</td>
+                    <td style="padding: 8px;"><code>00-50SA-5908</code> + <code>_BB_SH.pdf</code></td>
+                </tr>
+                <tr style="background: #fff;">
+                    <td style="padding: 8px; color: #7c3aed; font-weight: bold;">包含匹配</td>
+                    <td style="padding: 8px;">85%+</td>
+                    <td style="padding: 8px;">型号完整出现在文件名中</td>
+                    <td style="padding: 8px;"><code>00-50SA-5908</code> 在 <code>XXX_00-50SA-5908_XXX.pdf</code> 中</td>
+                </tr>
+                <tr style="background: #f5f5f5;">
+                    <td style="padding: 8px; color: #ea580c; font-weight: bold;">高相似度</td>
+                    <td style="padding: 8px;">80%+</td>
+                    <td style="padding: 8px;">字符串相似度较高</td>
+                    <td style="padding: 8px;">适用于型号略有差异的情况</td>
+                </tr>
+            </table>
+            <h4 style="margin-top: 15px;">使用流程：</h4>
+            <ol>
+                <li>运行 <code>一键创建附件文件夹.py</code> 创建目标文件夹</li>
+                <li>将所有图纸文件放入"附件"文件夹（或指定源文件夹）</li>
+                <li>运行 <code>智能匹配图纸文件.py</code></li>
+                <li>选择图纸源文件夹（默认为"附件"文件夹）</li>
+                <li>程序自动匹配并复制文件，显示匹配结果汇总</li>
+                <li>未匹配的文件夹会弹出对话框，可手动选择文件或跳过</li>
+            </ol>
+            <div class="info" style="margin-top: 10px;">
+                <div class="info-title">匹配策略</div>
+                <p>程序采用<strong>全局最优分配策略</strong>：</p>
+                <ul>
+                    <li>优先满足高等级匹配（完全匹配 > 核心匹配 > 包含匹配）</li>
+                    <li>每个文件只能分配给一个文件夹，避免冲突</li>
+                    <li>相似型号按匹配等级区分，确保准确性</li>
+                </ul>
+            </div>
         </div>
 
 
@@ -1750,7 +1275,7 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
         <p><strong>解决方法</strong>:</p>
         <ol>
             <li>确认物料类别在PLM系统中可以被检索</li>
-            <li>重新运行程序</strong></li>
+            <li>等待程序进行二次重试，若仍然报错尝试重新运行程序</li>
         </ol>
 
 
@@ -1841,6 +1366,27 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             <li>查看错误日志，搜索具体的错误信息</li>
         </ol>
 
+        <h3>问题11: 智能匹配图纸文件匹配错误</h3>
+        <p><strong>现象</strong>: 图纸文件被匹配到了错误的文件夹</p>
+        <p><strong>原因</strong>: 文件名相似度太高，导致匹配错误</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>检查匹配结果汇总，查看匹配等级和相似度</li>
+            <li>对于匹配错误的文件，手动删除并重新放入正确文件夹</li>
+            <li>如需更高精度，可修改文件名使其与规格型号更接近</li>
+            <li>或使用"跳过"功能，对易混淆的文件夹手动选择文件</li>
+        </ol>
+
+        <h3>问题12: 自动生成模板缺少字段</h3>
+        <p><strong>现象</strong>: 生成的Excel模板缺少某些必填字段</p>
+        <p><strong>原因</strong>: PLM系统字段配置可能有更新，或类别选择不正确</p>
+        <p><strong>解决方法</strong>:</p>
+        <ol>
+            <li>确认选择的物料类别是否正确</li>
+            <li>在PLM系统中查看该类别的必填字段，手动添加到模板</li>
+            <li>参考PLM系统中的标准模板进行对比补充</li>
+        </ol>
+
         <h2 id="section7">八、注意事项</h2>
 
         <h3>重要提醒</h3>
@@ -1853,12 +1399,20 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
             <li><strong>重复料号检查</strong>: 当程序提示存在相同规格型号/客户料号的HQ料号时，请检查是否确实需要重复创建</li>
         </ol>
 
+        <h3>智能匹配图纸文件使用建议</h3>
+        <ol>
+            <li><strong>检查匹配结果</strong>: 自动匹配完成后，建议检查各文件夹中的文件是否正确</li>
+            <li><strong>文件命名规范</strong>: 为提高匹配准确率，建议图纸文件名包含完整的规格型号</li>
+            <li><strong>相似型号注意</strong>: 当多个规格型号非常相似时（如仅末尾数字不同），建议手动检查或重命名文件以区分</li>
+            <li><strong>备份原文件</strong>: 智能匹配是复制操作，不会删除源文件，但仍建议提前备份重要图纸</li>
+        </ol>
+
         <div class="footer">
-            <p>文档编写  刘明星</p>
+                             <p>文档编写————刘明星</p>
         </div>
     </div>
 
-    <button class="print-btn" onclick="window.print()">打印 / 另存为PDF</button>
+    <button class="print-btn" onclick="window.print()">🖨️ 打印 / 另存为PDF</button>
 
     <script>
         const backToTopBtn = document.getElementById('backToTop');
@@ -1872,4 +1426,3 @@ user_password = "您的密码"  # 改为PLM密码，如保持***则需要手动�
     </script>
 </body>
 </html>
-
